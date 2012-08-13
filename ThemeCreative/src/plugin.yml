@@ -10,9 +10,9 @@ author: syam
 commands:
     theme:
       usage: /theme - to see the help
-      aliases: [tc]
+      aliases: [th, tc]
       description: To see the ThemeCreative help.
 permissions:
-    flag.user.join:
+    theme.admin.create:
         default: op
-        description: Allow join the game
+        description: Allow create the new theme
