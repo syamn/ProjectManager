@@ -1,6 +1,7 @@
 package syam.ThemeCreative;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,7 +12,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import syam.ThemeCreative.Command.BaseCommand;
+import syam.ThemeCreative.Command.CreateCommand;
 import syam.ThemeCreative.Command.HelpCommand;
+import syam.ThemeCreative.Theme.Theme;
+import syam.ThemeCreative.Theme.ThemeManager;
 
 public class ThemeCreative extends JavaPlugin{
 	// ** Logger **
@@ -21,11 +25,16 @@ public class ThemeCreative extends JavaPlugin{
 
 	// ** Listener **
 
-	// ** Classes **
+	// ** Private Classes **
 	private ConfigurationManager config;
+	private ThemeManager tm;
 
 	// ** Commands **
 	public static List<BaseCommand> commands = new ArrayList<BaseCommand>();
+
+	// ** Variable **
+	// 存在するテーマ <String 一意のテーマID, Theme>
+	public HashMap<String, Theme> themes = new HashMap<String, Theme>();
 
 	// ** Instance **
 	private static ThemeCreative instance;
@@ -51,6 +60,9 @@ public class ThemeCreative extends JavaPlugin{
 		// コマンド登録
 		registerCommands();
 
+		// マネージャ
+		tm = new ThemeManager(this);
+
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is enabled!");
@@ -75,6 +87,7 @@ public class ThemeCreative extends JavaPlugin{
 		// Start Commands
 
 		// Admin Commands
+		commands.add(new CreateCommand());
 
 	}
 
@@ -105,6 +118,29 @@ public class ThemeCreative extends JavaPlugin{
 			return true;
 		}
 		return false;
+	}
+
+	/* getter */
+
+	/**
+	 * テーマを返す
+	 * @param themeName
+	 * @return Theme
+	 */
+	public Theme getTheme(String themeName){
+		if (!themes.containsKey(themeName)){
+			return null;
+		}else{
+			return themes.get(themeName);
+		}
+	}
+
+	/**
+	 * テーママネージャを返す
+	 * @return
+	 */
+	public ThemeManager getManager(){
+		return tm;
 	}
 
 	/**
