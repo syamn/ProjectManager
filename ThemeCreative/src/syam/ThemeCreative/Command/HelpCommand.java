@@ -14,7 +14,7 @@ public class HelpCommand extends BaseCommand{
 	@Override
 	public boolean execute() {
 		Actions.message(sender, null, "&c===================================");
-		Actions.message(sender, null, "&bFlagGame Plugin version &3%version &bby syamn");
+		Actions.message(sender, null, "&bThemeCreative Plugin version &3%version &bby syamn");
 		Actions.message(sender, null, " &b<>&f = required, &b[]&f = optional");
 		// 全コマンドをループで表示
 		for (BaseCommand cmd : ThemeCreative.commands.toArray(new BaseCommand[0])){
