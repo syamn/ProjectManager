@@ -20,16 +20,16 @@ public class CreateCommand extends BaseCommand{
 			return true;
 		}
 
-		// 新規ゲーム登録
+		// 新規テーマ登録
 		theme = new Theme(plugin, args.get(0), args.get(1));
 		ThemeManager.setSelectedTheme(player, theme);
 
-		Actions.message(sender, null, "&a新規ゲーム'"+theme.getName()+"'を登録して選択しました！");
+		Actions.message(sender, null, "&a新規テーマ'"+theme.getName()+"'を登録して選択しました！");
 		return true;
 	}
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("flag.admin.theme");
+		return sender.hasPermission("theme.admin.create");
 	}
 }
