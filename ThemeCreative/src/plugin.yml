@@ -1,0 +1,18 @@
+##  Plugin Information  ##
+name: ThemeCreative
+version: 0.1
+main: syam.ThemeCreative.ThemeCreative
+description: ThemeCreative Plugin for SakuraServer
+website: http://sakura-server.net/
+softdepend: [WorldEdit]
+##  Original Author     ##
+author: syam
+commands:
+    theme:
+      usage: /theme - to see the help
+      aliases: [tc]
+      description: To see the ThemeCreative help.
+permissions:
+    flag.user.join:
+        default: op
+        description: Allow join the game
