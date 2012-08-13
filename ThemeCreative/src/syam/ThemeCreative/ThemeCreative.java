@@ -1,10 +1,17 @@
 package syam.ThemeCreative;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import syam.ThemeCreative.Command.BaseCommand;
+import syam.ThemeCreative.Command.HelpCommand;
 
 public class ThemeCreative extends JavaPlugin{
 	// ** Logger **
@@ -16,6 +23,9 @@ public class ThemeCreative extends JavaPlugin{
 
 	// ** Classes **
 	private ConfigurationManager config;
+
+	// ** Commands **
+	public static List<BaseCommand> commands = new ArrayList<BaseCommand>();
 
 	// ** Instance **
 	private static ThemeCreative instance;
@@ -36,7 +46,10 @@ public class ThemeCreative extends JavaPlugin{
 			ex.printStackTrace();
 		}
 
-		// Setup Listeners
+		// Register Listeners
+
+		// コマンド登録
+		registerCommands();
 
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
@@ -52,6 +65,47 @@ public class ThemeCreative extends JavaPlugin{
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is disabled!");
 	}
 
+	/**
+	 * コマンドを登録
+	 */
+	private void registerCommands(){
+		// Intro Commands
+		commands.add(new HelpCommand());
+
+		// Start Commands
+
+		// Admin Commands
+
+	}
+
+	/**
+	 * コマンドが呼ばれた
+	 */
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]){
+		if (cmd.getName().equalsIgnoreCase("theme")){
+			if(args.length == 0){
+				// 引数ゼロはヘルプ表示
+				args = new String[]{"help"};
+			}
+
+			outer:
+			for (BaseCommand command : commands.toArray(new BaseCommand[0])){
+				String[] cmds = command.name.split(" ");
+				for (int i = 0; i < cmds.length; i++){
+					if (i >= args.length || !cmds[i].equalsIgnoreCase(args[i])){
+						continue outer;
+					}
+					// 実行
+					return command.run(this, sender, args, commandLabel);
+				}
+			}
+			// 有効コマンドなし ヘルプ表示
+			new HelpCommand().run(this, sender, args, commandLabel);
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 設定マネージャを返す
