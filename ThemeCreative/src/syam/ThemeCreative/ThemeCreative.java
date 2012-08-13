@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import syam.ThemeCreative.Command.BaseCommand;
 import syam.ThemeCreative.Command.CreateCommand;
 import syam.ThemeCreative.Command.HelpCommand;
+import syam.ThemeCreative.Command.SelectCommand;
 import syam.ThemeCreative.Theme.Theme;
 import syam.ThemeCreative.Theme.ThemeManager;
 
@@ -87,6 +88,7 @@ public class ThemeCreative extends JavaPlugin{
 		// Start Commands
 
 		// Admin Commands
+		commands.add(new SelectCommand());
 		commands.add(new CreateCommand());
 
 	}
