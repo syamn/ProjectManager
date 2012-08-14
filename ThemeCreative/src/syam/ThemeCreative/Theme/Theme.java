@@ -46,6 +46,9 @@ public class Theme{
 	public void setFileName(String filename){
 		this.fileName = filename;
 	}
+	public String getFileName(){
+		return this.fileName;
+	}
 
 	public String getName(){
 		return themeName;

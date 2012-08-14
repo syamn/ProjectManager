@@ -19,3 +19,6 @@ permissions:
     theme.admin.select:
         default: op
         description: Allow select the theme
+    theme.admin.delete:
+        default: op
+        description: Allow delete the theme
