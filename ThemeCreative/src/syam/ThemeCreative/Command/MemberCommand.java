@@ -203,7 +203,7 @@ public class MemberCommand extends BaseCommand{
 		String name = args.get(1);
 
 		if (theme.isJoined(name) && !theme.isManager(name)){
-			Actions.message(sender, null, "&cプレイヤー'"+name+"'は既にマネージャーになっています");
+			Actions.message(sender, null, "&cプレイヤー'"+name+"'はマネージャーではありません");
 			return true;
 		}
 		if (!theme.isJoined(name)){
