@@ -1,0 +1,33 @@
+##  Plugin Information  ##
+name: ProjectManager
+version: 0.1
+main: syam.ProjectManager.ProjectManager
+description: ProjectManager Plugin for SakuraServer
+website: http://sakura-server.net/
+softdepend: [WorldEdit]
+##  Original Author     ##
+author: syam
+commands:
+    theme:
+      usage: /theme - to see the help
+      aliases: [th, tc]
+      description: To see the ThemeCreative help.
+permissions:
+    theme.admin.create:
+        default: op
+        description: Allow create the new theme
+    theme.admin.select:
+        default: op
+        description: Allow select the theme
+    theme.admin.delete:
+        default: op
+        description: Allow delete the theme
+    theme.user.list:
+        default: op
+        description: Allow use list command
+    theme.user.member:
+        default: op
+        description: Allow use member command
+    theme.admin.set:
+        default: op
+        description: Allow use set command
