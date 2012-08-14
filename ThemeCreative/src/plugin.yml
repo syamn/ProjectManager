@@ -22,3 +22,9 @@ permissions:
     theme.admin.delete:
         default: op
         description: Allow delete the theme
+    theme.user.list:
+        default: op
+        description: Allow use list command
+    theme.user.member:
+        default: op
+        description: Allow use member command

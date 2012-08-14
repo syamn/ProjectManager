@@ -163,7 +163,7 @@ public class MemberCommand extends BaseCommand{
 			col.add(ac.name());
 		}
 
-		Actions.message(sender, null, "&6 " + Util.join(col, "/").toLowerCase());
+		Actions.message(sender, null, "&6 " + Util.join(col, ", ").toLowerCase());
 	}
 
 	/**
