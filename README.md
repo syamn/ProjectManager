@@ -1,4 +1,4 @@
-ThemeCreative
+ProjectManager
 =============
 
-CraftBukkit ThemeCreative plugin
+CraftBukkit ProjectManager plugin
