@@ -15,6 +15,7 @@ import syam.ThemeCreative.Command.BaseCommand;
 import syam.ThemeCreative.Command.CreateCommand;
 import syam.ThemeCreative.Command.DeleteCommand;
 import syam.ThemeCreative.Command.HelpCommand;
+import syam.ThemeCreative.Command.MemberCommand;
 import syam.ThemeCreative.Command.SelectCommand;
 import syam.ThemeCreative.Theme.Theme;
 import syam.ThemeCreative.Theme.ThemeFileManager;
@@ -97,7 +98,8 @@ public class ThemeCreative extends JavaPlugin{
 		// Intro Commands
 		commands.add(new HelpCommand());
 
-		// Start Commands
+		// General Commands
+		commands.add(new MemberCommand());
 
 		// Admin Commands
 		commands.add(new SelectCommand());

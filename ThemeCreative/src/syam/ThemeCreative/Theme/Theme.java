@@ -1,8 +1,13 @@
 package syam.ThemeCreative.Theme;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.entity.Player;
+
 import syam.ThemeCreative.ThemeCreative;
+import syam.ThemeCreative.Enum.MemberType;
 
 public class Theme{
 	// Logger
@@ -18,8 +23,9 @@ public class Theme{
 	private String fileName; // テーマデータのファイル名
 	private String themeName; // テーマ名
 	private String themeTitle; // テーマタイトル
-	private boolean ready = false; // 待機状態フラグ
-	private boolean started = false; // 開始状態フラグ
+
+	/* ***** 参加プレイヤー関係 ***** */
+	private Map<String, MemberType> playersMap = new ConcurrentHashMap<String, MemberType>();
 
 	/**
 	 * コンストラクタ
@@ -40,8 +46,66 @@ public class Theme{
 		plugin.themes.put(this.themeName, this);
 	}
 
+	/* ***** 参加プレイヤー関係 ***** */
+	// メンバー/マネージャ追加
+	public void addPlayer(String player, MemberType type){
+		playersMap.put(player, type);
+	}
+	public boolean addPlayer(Player player, MemberType type){
+		if (player == null) return false;
 
-	/* ***** getter / setter ***** */
+		addPlayer(player.getName(), type);
+		return true;
+	}
+	public void addMember(String player){
+		addPlayer(player, MemberType.MEMBER);
+	}
+	public void addManager(String player){
+		addPlayer(player, MemberType.MANAGER);
+	}
+
+	// 削除
+	public void remPlayer(String player){
+		if (!isJoined(player)) return;
+		playersMap.remove(player);
+	}
+
+	// プレイヤーの権限グループを返す
+	public MemberType getPlayerType(String player){
+		if (!isJoined(player)) return null;
+
+		return playersMap.get(player);
+	}
+
+	// isJoined/isManager
+	public boolean isJoined(String player){
+		if (player == null) return false;
+
+		if (playersMap.containsKey(player))
+			return true;
+		else
+			return false;
+	}
+	public boolean isManager(String player){
+		if (!isJoined(player)) return false;
+
+		if (getPlayerType(player) == MemberType.MANAGER)
+			return true;
+		else
+			return false;
+	}
+
+	// PlayerMap getter/setter
+	public Map<String, MemberType> getPlayersMap(){
+		return this.playersMap;
+	}
+	public void setPlayersMap(Map<String, MemberType> map){
+		playersMap.clear();
+		this.playersMap = map;
+	}
+
+
+	/* ***** そのほかの getter / setter ***** */
 
 	public void setFileName(String filename){
 		this.fileName = filename;
