@@ -92,11 +92,11 @@ public class MemberCommand extends BaseCommand{
 		}
 
 		// マネージャ出力
-		if (theme.getPlayersByType(MemberType.MANAGER).size() > 1){
+		if (theme.getPlayersByType(MemberType.MANAGER).size() >= 1){
 			Actions.message(null, player,"マネージャ: " + Util.join(theme.getPlayersByType(MemberType.MANAGER), ", "));
 		}
 		// 一般メンバー出力
-		if (theme.getPlayersByType(MemberType.MEMBER).size() > 1){
+		if (theme.getPlayersByType(MemberType.MEMBER).size() >= 1){
 			Actions.message(null, player,"メンバー: " + Util.join(theme.getPlayersByType(MemberType.MEMBER), ", "));
 		}
 
