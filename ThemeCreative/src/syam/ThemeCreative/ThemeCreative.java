@@ -16,6 +16,7 @@ import syam.ThemeCreative.Command.CreateCommand;
 import syam.ThemeCreative.Command.HelpCommand;
 import syam.ThemeCreative.Command.SelectCommand;
 import syam.ThemeCreative.Theme.Theme;
+import syam.ThemeCreative.Theme.ThemeFileManager;
 import syam.ThemeCreative.Theme.ThemeManager;
 
 public class ThemeCreative extends JavaPlugin{
@@ -29,6 +30,7 @@ public class ThemeCreative extends JavaPlugin{
 	// ** Private Classes **
 	private ConfigurationManager config;
 	private ThemeManager tm;
+	private ThemeFileManager tfm;
 
 	// ** Commands **
 	public static List<BaseCommand> commands = new ArrayList<BaseCommand>();
@@ -63,6 +65,10 @@ public class ThemeCreative extends JavaPlugin{
 
 		// マネージャ
 		tm = new ThemeManager(this);
+		tfm = new ThemeFileManager(this);
+
+		// テーマ読み込み
+		tfm.loadThemes();
 
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
@@ -73,6 +79,11 @@ public class ThemeCreative extends JavaPlugin{
 	 * プラグイン停止処理
 	 */
 	public void onDisable(){
+		// テーマ保存
+		if (tfm != null){
+			tfm.saveThemes();
+		}
+
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is disabled!");
@@ -143,6 +154,14 @@ public class ThemeCreative extends JavaPlugin{
 	 */
 	public ThemeManager getManager(){
 		return tm;
+	}
+
+	/**
+	 * テーマファイルマネージャを帰す
+	 * @return
+	 */
+	public ThemeFileManager getFileManager(){
+		return tfm;
 	}
 
 	/**
