@@ -1,11 +1,11 @@
-# ThemeCreative Configuration file!
+# ProjectManager Configuration file!
 # @author syamn <admin@sakura-server.net>
-# github: https://github.com/syamn/ThemeCreative
+# github: https://github.com/syamn/ProjectManager
 
 #==================#
 #   Basic Config   #
 #==================#
-# ThemeCreative World
+# ProjectManager World
 WorldName: 'theme_build'
 
 #==================#

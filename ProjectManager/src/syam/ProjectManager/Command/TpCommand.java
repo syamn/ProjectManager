@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import syam.ProjectManager.Theme.Theme;
+import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Util.Actions;
 
 public class TpCommand extends BaseCommand{
@@ -12,21 +12,21 @@ public class TpCommand extends BaseCommand{
 		bePlayer = true;
 		name = "list";
 		argLength = 0;
-		usage = "[theme] <- tp to specific theme";
+		usage = "[project] <- tp to specific project";
 	}
 
 	@Override
 	public boolean execute() {
-		Theme theme = null;
-		Boolean joinedTheme = false;
+		Project project = null;
+		Boolean joinedProject = false;
 		if (args.size() == 0){
-			List<Theme> joined = plugin.getJoinedTheme(player.getName());
+			List<Project> joined = plugin.getJoinedProject(player.getName());
 			if (joined.size() == 1){
-				theme = joined.get(0);
-				Actions.message(null, player, "&a参加中のプロジェクト'"+theme.getName()+"'にテレポートします！");
+				project = joined.get(0);
+				Actions.message(null, player, "&a参加中のプロジェクト'"+project.getName()+"'にテレポートします！");
 			}
 			else if(joined.size() == 0){
-				Actions.message(null, player, "&c参加中のプロジェクトがありません！ /theme tp ");
+				Actions.message(null, player, "&c参加中のプロジェクトがありません！ /project tp ");
 				return true;
 			}
 			else{
@@ -34,9 +34,9 @@ public class TpCommand extends BaseCommand{
 				return true;
 			}
 		}else{
-			Theme t = plugin.getTheme(args.get(0));
+			Project t = plugin.getProject(args.get(0));
 			if (t != null){
-				theme = t;
+				project = t;
 			}
 		}
 
@@ -48,6 +48,6 @@ public class TpCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("theme.user.tp");
+		return sender.hasPermission("pm.user.tp");
 	}
 }

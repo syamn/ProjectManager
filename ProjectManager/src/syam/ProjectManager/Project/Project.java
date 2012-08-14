@@ -1,4 +1,4 @@
-package syam.ProjectManager.Theme;
+package syam.ProjectManager.Project;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -9,23 +9,23 @@ import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import syam.ProjectManager.ThemeCreative;
+import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Enum.MemberType;
 
-public class Theme{
+public class Project{
 	// Logger
-	public static final Logger log = ThemeCreative.log;
-	private static final String logPrefix = ThemeCreative.logPrefix;
-	private static final String msgPrefix = ThemeCreative.msgPrefix;
+	public static final Logger log = ProjectManager.log;
+	private static final String logPrefix = ProjectManager.logPrefix;
+	private static final String msgPrefix = ProjectManager.msgPrefix;
 
 	// Instance
-	private final ThemeCreative plugin;
+	private final ProjectManager plugin;
 
-	/* ***** テーマデータ ***** */
-	private String themeID; // 一意なテーマID ログ用
-	private String fileName; // テーマデータのファイル名
-	private String themeName; // テーマ名
-	private String themeTitle; // テーマタイトル
+	/* ***** プロジェクトデータ ***** */
+	private String projectID; // 一意なプロジェクトID ログ用
+	private String fileName; // プロジェクトデータのファイル名
+	private String projectName; // プロジェクト名
+	private String projectTitle; // プロジェクトタイトル
 
 	// 参加プレイヤー
 	private Map<String, MemberType> playersMap = new ConcurrentHashMap<String, MemberType>();
@@ -37,18 +37,18 @@ public class Theme{
 	 * @param plugin
 	 * @param name
 	 */
-	public Theme(final ThemeCreative plugin, final String name, final String title){
+	public Project(final ProjectManager plugin, final String name, final String title){
 		this.plugin = plugin;
 
-		// テーマデータ設定
-		this.themeName = name;
-		this.themeTitle = title;
+		// プロジェクトデータ設定
+		this.projectName = name;
+		this.projectTitle = title;
 
 		// ファイル名設定
-		this.fileName = this.themeName + ".yml";
+		this.fileName = this.projectName + ".yml";
 
 		// ゲームをメインクラスに登録
-		plugin.themes.put(this.themeName, this);
+		plugin.projects.put(this.projectName, this);
 	}
 
 	/* ***** 参加プレイヤー関係 ***** */
@@ -143,10 +143,10 @@ public class Theme{
 	}
 
 	public String getName(){
-		return themeName;
+		return projectName;
 	}
 
 	public String getTitle(){
-		return themeTitle;
+		return projectTitle;
 	}
 }

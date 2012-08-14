@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import syam.ProjectManager.Enum.MemberType;
-import syam.ProjectManager.Theme.Theme;
-import syam.ProjectManager.Theme.ThemeManager;
+import syam.ProjectManager.Project.Project;
+import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Util.Actions;
 import syam.ProjectManager.Util.Util;
 
@@ -15,7 +15,7 @@ public class MemberCommand extends BaseCommand{
 		bePlayer = true;
 		name = "member";
 		argLength = 0;
-		usage = "<action> [player] <- manage theme member";
+		usage = "<action> [player] <- manage project member";
 	}
 
 	/**
@@ -23,10 +23,10 @@ public class MemberCommand extends BaseCommand{
 	 */
 	@Override
 	public boolean execute() {
-		// テーマ取得
-		Theme theme = ThemeManager.getSelectedTheme(player);
-		if (theme == null){
-			Actions.message(null, player, "&c先に管理するテーマを選択してください");
+		// プロジェクト取得
+		Project project = ProjectConfigManager.getSelectedProject(player);
+		if (project == null){
+			Actions.message(null, player, "&c先に管理するプロジェクトを選択してください");
 			return true;
 		}
 
@@ -55,19 +55,19 @@ public class MemberCommand extends BaseCommand{
 		switch (ac){
 			// メンバーリスト表示
 			case LIST:
-				return list(theme);
+				return list(project);
 			// メンバー追加
 			case ADD:
-				return add(theme);
+				return add(project);
 			// メンバー削除
 			case DEL:
-				return del(theme);
+				return del(project);
 			// マネージャにする
 			case PROMOTION:
-				return promotion(theme);
+				return promotion(project);
 			// マネージャを解除する
 			case DEMOTION:
-				return demotion(theme);
+				return demotion(project);
 
 			// 定義漏れ
 			default:
@@ -82,29 +82,29 @@ public class MemberCommand extends BaseCommand{
 	/* ***** ここから各アクション分岐 ************************ */
 
 	// LIST - メンバーリスト表示
-	private boolean list(Theme theme){
+	private boolean list(Project project){
 		// 人数出力
-		if (theme.getPlayersMap().size() < 1){
+		if (project.getPlayersMap().size() < 1){
 			Actions.message(null, player,"&6このプロジェクトに参加しているプレイヤーはいません");
 			return true;
 		}else{
-			Actions.message(null, player,"&6このプロジェクトには &c"+theme.getPlayersMap().size()+"人 &6のプレイヤーが参加しています");
+			Actions.message(null, player,"&6このプロジェクトには &c"+project.getPlayersMap().size()+"人 &6のプレイヤーが参加しています");
 		}
 
 		// マネージャ出力
-		if (theme.getPlayersByType(MemberType.MANAGER).size() >= 1){
-			Actions.message(null, player,"マネージャ: " + Util.join(theme.getPlayersByType(MemberType.MANAGER), ", "));
+		if (project.getPlayersByType(MemberType.MANAGER).size() >= 1){
+			Actions.message(null, player,"マネージャ: " + Util.join(project.getPlayersByType(MemberType.MANAGER), ", "));
 		}
 		// 一般メンバー出力
-		if (theme.getPlayersByType(MemberType.MEMBER).size() >= 1){
-			Actions.message(null, player,"メンバー: " + Util.join(theme.getPlayersByType(MemberType.MEMBER), ", "));
+		if (project.getPlayersByType(MemberType.MEMBER).size() >= 1){
+			Actions.message(null, player,"メンバー: " + Util.join(project.getPlayersByType(MemberType.MEMBER), ", "));
 		}
 
 		return true;
 	}
 
 	// ADD - メンバー追加
-	private boolean add(Theme theme){
+	private boolean add(Project project){
 		// プレイヤー名チェック
 		if(args.size() == 1){
 			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
@@ -119,19 +119,19 @@ public class MemberCommand extends BaseCommand{
 		String name = args.get(1);
 
 		// 既に参加状態かチェック
-		if (theme.isJoined(name)){
+		if (project.isJoined(name)){
 			Actions.message(null, player, "&cそのプレイヤーは既にメンバーになっています！");
 			return true;
 		}
 
-		theme.addMember(name);
+		project.addMember(name);
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトメンバーに追加しました！");
 
 		return true;
 	}
 
 	// DEL - メンバー削除
-	private boolean del(Theme theme){
+	private boolean del(Project project){
 		// プレイヤー名チェック
 		if(args.size() == 1){
 			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
@@ -146,7 +146,7 @@ public class MemberCommand extends BaseCommand{
 		String name = args.get(1);
 
 		// 参加状態かチェック
-		if (!theme.isJoined(name)){
+		if (!project.isJoined(name)){
 			Actions.message(null, player, "&cそのプレイヤーはこのプロジェクトに参加していません");
 			return true;
 		}
@@ -156,14 +156,14 @@ public class MemberCommand extends BaseCommand{
 			return true;
 		}
 
-		theme.remPlayer(name);
+		project.remPlayer(name);
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトから除名しました！");
 
 		return true;
 	}
 
 	// PROMOTION - マネージャにする
-	private boolean promotion(Theme theme){
+	private boolean promotion(Project project){
 		// プレイヤー名チェック
 		if(args.size() == 1){
 			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
@@ -177,23 +177,23 @@ public class MemberCommand extends BaseCommand{
 
 		String name = args.get(1);
 
-		if (theme.isManager(name)){
+		if (project.isManager(name)){
 			Actions.message(sender, null, "&cプレイヤー'"+name+"'は既にマネージャーになっています");
 			return true;
 		}
-		if (!theme.isJoined(name)){
+		if (!project.isJoined(name)){
 			Actions.message(sender, null, "&cプレイヤー'"+name+"'はプロジェクトに参加していません");
 			return true;
 		}
 
-		theme.addManager(name);
+		project.addManager(name);
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャに昇格させました！");
 
 		return true;
 	}
 
 	// DEMOTION - マネージャを解除する
-	private boolean demotion(Theme theme){
+	private boolean demotion(Project project){
 		// プレイヤー名チェック
 		if(args.size() == 1){
 			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
@@ -207,11 +207,11 @@ public class MemberCommand extends BaseCommand{
 
 		String name = args.get(1);
 
-		if (theme.isJoined(name) && !theme.isManager(name)){
+		if (project.isJoined(name) && !project.isManager(name)){
 			Actions.message(sender, null, "&cプレイヤー'"+name+"'はマネージャーではありません");
 			return true;
 		}
-		if (!theme.isJoined(name)){
+		if (!project.isJoined(name)){
 			Actions.message(sender, null, "&cプレイヤー'"+name+"'はプロジェクトに参加していません");
 			return true;
 		}
@@ -220,7 +220,7 @@ public class MemberCommand extends BaseCommand{
 			return true;
 		}
 
-		theme.addMember(name);
+		project.addMember(name);
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャから降格させました！");
 
 		return true;
@@ -256,6 +256,6 @@ public class MemberCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("theme.user.member");
+		return sender.hasPermission("pm.user.member");
 	}
 }

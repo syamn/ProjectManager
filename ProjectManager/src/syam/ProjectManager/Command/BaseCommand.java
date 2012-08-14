@@ -7,14 +7,14 @@ import java.util.logging.Logger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import syam.ProjectManager.ThemeCreative;
+import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Util.Actions;
 
 public abstract class BaseCommand{
 	// Logger
-	protected static final Logger log = ThemeCreative.log;
-	protected static final String logPrefix = ThemeCreative.logPrefix;
-	protected static final String msgPrefix = ThemeCreative.msgPrefix;
+	protected static final Logger log = ProjectManager.log;
+	protected static final String logPrefix = ProjectManager.logPrefix;
+	protected static final String msgPrefix = ProjectManager.msgPrefix;
 
 	/* コマンド関係 */
 	public CommandSender sender;
@@ -25,9 +25,9 @@ public abstract class BaseCommand{
 	public boolean bePlayer = true;
 	public Player player;
 	public String command;
-	public ThemeCreative plugin;
+	public ProjectManager plugin;
 
-	public boolean run(ThemeCreative plugin, CommandSender sender, String[] preArgs, String cmd) {
+	public boolean run(ProjectManager plugin, CommandSender sender, String[] preArgs, String cmd) {
 		this.plugin = plugin;
 		this.sender = sender;
 		this.command = cmd;

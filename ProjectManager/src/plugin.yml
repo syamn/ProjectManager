@@ -8,26 +8,26 @@ softdepend: [WorldEdit]
 ##  Original Author     ##
 author: syam
 commands:
-    theme:
-      usage: /theme - to see the help
-      aliases: [th, tc]
-      description: To see the ThemeCreative help.
+    project:
+      usage: /project - to see the help
+      aliases: [pj]
+      description: To see the ProjectManager help.
 permissions:
-    theme.admin.create:
+    pm.admin.create:
         default: op
-        description: Allow create the new theme
-    theme.admin.select:
+        description: Allow create the new project
+    pm.admin.select:
         default: op
-        description: Allow select the theme
-    theme.admin.delete:
+        description: Allow select the project
+    pm.admin.delete:
         default: op
-        description: Allow delete the theme
-    theme.user.list:
+        description: Allow delete the project
+    pm.user.list:
         default: op
         description: Allow use list command
-    theme.user.member:
+    pm.user.member:
         default: op
         description: Allow use member command
-    theme.admin.set:
+    pm.admin.set:
         default: op
         description: Allow use set command

@@ -3,8 +3,8 @@ package syam.ProjectManager.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-import syam.ProjectManager.Theme.Theme;
-import syam.ProjectManager.Theme.ThemeManager;
+import syam.ProjectManager.Project.Project;
+import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Util.Actions;
 import syam.ProjectManager.Util.Util;
 
@@ -13,7 +13,7 @@ public class SetCommand extends BaseCommand{
 		bePlayer = true;
 		name = "set";
 		argLength = 0;
-		usage = "<option> [value] <- set option";
+		usage = "<option> [value] <- set project option";
 	}
 
 	@Override
@@ -24,10 +24,10 @@ public class SetCommand extends BaseCommand{
 			return true;
 		}
 
-		// テーマ取得
-		Theme theme = ThemeManager.getSelectedTheme(player);
-		if (theme == null){
-			Actions.message(null, player, "&c先に編集するテーマを選択してください");
+		// プロジェクト取得
+		Project project = ProjectConfigManager.getSelectedProject(player);
+		if (project == null){
+			Actions.message(null, player, "&c先に編集するプロジェクトを選択してください");
 			return true;
 		}
 
@@ -48,7 +48,7 @@ public class SetCommand extends BaseCommand{
 		// 設定項目によって処理を分ける
 		switch (conf){
 			case WARP: // ワープ地点設定
-				return setWarp(theme);
+				return setWarp(project);
 
 
 			// 定義漏れ
@@ -63,10 +63,10 @@ public class SetCommand extends BaseCommand{
 
 	/* ***** ここから各設定関数 ****************************** */
 
-	private boolean setWarp(Theme theme){
-		theme.setWarpLocation(player.getLocation());
+	private boolean setWarp(Project project){
+		project.setWarpLocation(player.getLocation());
 
-		Actions.message(null, player, "&aテーマ'"+theme.getName()+"'のワープ地点を設定しました！");
+		Actions.message(null, player, "&aプロジェクト'"+project.getName()+"'のワープ地点を設定しました！");
 		return true;
 	}
 
@@ -102,6 +102,6 @@ public class SetCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("theme.admin.set");
+		return sender.hasPermission("pm.admin.set");
 	}
 }

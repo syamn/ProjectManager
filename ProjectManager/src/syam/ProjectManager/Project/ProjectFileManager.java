@@ -1,4 +1,4 @@
-package syam.ProjectManager.Theme;
+package syam.ProjectManager.Project;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,58 +15,58 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import syam.ProjectManager.ThemeCreative;
+import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Enum.MemberType;
 import syam.ProjectManager.Util.Actions;
 
-public class ThemeFileManager{
+public class ProjectFileManager{
 	// Logger
-	public static final Logger log = ThemeCreative.log;
-	private static final String logPrefix = ThemeCreative.logPrefix;
-	private static final String msgPrefix = ThemeCreative.msgPrefix;
+	public static final Logger log = ProjectManager.log;
+	private static final String logPrefix = ProjectManager.logPrefix;
+	private static final String msgPrefix = ProjectManager.msgPrefix;
 
-	private final ThemeCreative plugin;
-	public ThemeFileManager(final ThemeCreative plugin){
+	private final ProjectManager plugin;
+	public ProjectFileManager(final ProjectManager plugin){
 		this.plugin = plugin;
 	}
 
-	/* テーマデータ保存/読み出し */
-	public void saveThemes(){
+	/* プロジェクトデータ保存/読み出し */
+	public void saveProjects(){
 		FileConfiguration confFile = new YamlConfiguration();
 		String fileDir = plugin.getDataFolder() + System.getProperty("file.separator") +
-				"themeData" + System.getProperty("file.separator");
+				"projectData" + System.getProperty("file.separator");
 
-		for (Theme theme : plugin.themes.values()){
-			File file = new File(fileDir + theme.getName() + ".yml");
+		for (Project project : plugin.projects.values()){
+			File file = new File(fileDir + project.getName() + ".yml");
 
 			// マップデータをリストに変換
-			List<String> playerList = convertPlayerMap(theme.getPlayersMap());
+			List<String> playerList = convertPlayerMap(project.getPlayersMap());
 
 			// 保存するデータ
-			confFile.set("ThemeName", theme.getName());
-			confFile.set("Title", theme.getTitle());
-			confFile.set("WarpLocation", convertPlayerLocation(theme.getWarpLocation()));
+			confFile.set("ProjectName", project.getName());
+			confFile.set("Title", project.getTitle());
+			confFile.set("WarpLocation", convertPlayerLocation(project.getWarpLocation()));
 
 			confFile.set("Players", playerList);
 
 			try{
 				confFile.save(file);
 			}catch (IOException ex){
-				log.warning(logPrefix+ "Couldn't write theme data!");
+				log.warning(logPrefix+ "Couldn't write project data!");
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	public void loadThemes(){
+	public void loadProjects(){
 		FileConfiguration confFile = new YamlConfiguration();
-		String fileDir = plugin.getDataFolder() + System.getProperty("file.separator") + "themeData";
+		String fileDir = plugin.getDataFolder() + System.getProperty("file.separator") + "projectData";
 
 		File dir = new File(fileDir);
 		File[] files = dir.listFiles();
 
-		// テーマデータクリア
-		plugin.themes.clear();
+		// プロジェクトデータクリア
+		plugin.projects.clear();
 
 		// ファイルなし
 		if (files == null || files.length == 0)
@@ -79,18 +79,18 @@ public class ThemeFileManager{
 				confFile.load(file);
 
 				// 読むデータキー
-				name = confFile.getString("ThemeName", null);
+				name = confFile.getString("ProjectName", null);
 				title = confFile.getString("Title", null);
 
-				// テーマ追加
-				Theme theme = new Theme(plugin, name, title);
+				// プロジェクト追加
+				Project project = new Project(plugin, name, title);
 
 				// ファイル名設定
-				theme.setFileName(file.getName());
+				project.setFileName(file.getName());
 
 				// 各設定データを追加
-				theme.setWarpLocation(convertPlayerLocation(confFile.getString("WarpLocation", null)));
-				theme.setPlayersMap(convertPlayerMap(confFile.getStringList("Players")));
+				project.setWarpLocation(convertPlayerLocation(confFile.getString("WarpLocation", null)));
+				project.setPlayersMap(convertPlayerMap(confFile.getStringList("Players")));
 
 				log.info(logPrefix+ "Loaded Theme: "+ file.getName()+" ("+name+")");
 			}

@@ -21,17 +21,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import syam.ProjectManager.ThemeCreative;
+import syam.ProjectManager.ProjectManager;
 
 public class Actions{
 	// Logger
-	public static final Logger log = ThemeCreative.log;
-	private static final String logPrefix = ThemeCreative.logPrefix;
-	private static final String msgPrefix = ThemeCreative.msgPrefix;
+	public static final Logger log = ProjectManager.log;
+	private static final String logPrefix = ProjectManager.logPrefix;
+	private static final String msgPrefix = ProjectManager.msgPrefix;
 
-	private final ThemeCreative plugin;
+	private final ProjectManager plugin;
 
-	public Actions(ThemeCreative plugin){
+	public Actions(ProjectManager plugin){
 		this.plugin = plugin;
 	}
 
@@ -48,7 +48,7 @@ public class Actions{
 		if (message != null){
 			message = message
 					.replaceAll("&([0-9a-fk-or])", "\u00A7$1")
-					.replaceAll("%version", ThemeCreative.getInstance().getDescription().getVersion());
+					.replaceAll("%version", ProjectManager.getInstance().getDescription().getVersion());
 			if (player != null){
 				player.sendMessage(message);
 			}
@@ -65,7 +65,7 @@ public class Actions{
 		if (message != null){
 			message = message
 					.replaceAll("&([0-9a-fk-or])", "\u00A7$1")
-					.replaceAll("%version", ThemeCreative.getInstance().getDescription().getVersion());
+					.replaceAll("%version", ProjectManager.getInstance().getDescription().getVersion());
 			//debug(message);//debug
 			Bukkit.broadcastMessage(message);
 		}
@@ -79,7 +79,7 @@ public class Actions{
 		if (world != null && message != null){
 			message = message
 					.replaceAll("&([0-9a-fk-or])", "\u00A7$1")
-					.replaceAll("%version", ThemeCreative.getInstance().getDescription().getVersion());
+					.replaceAll("%version", ProjectManager.getInstance().getDescription().getVersion());
 			for(Player player: world.getPlayers()){
 				player.sendMessage(message);
 			}

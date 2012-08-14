@@ -2,7 +2,7 @@ package syam.ProjectManager.Command;
 
 import java.io.File;
 
-import syam.ProjectManager.Theme.Theme;
+import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Util.Actions;
 
 public class DeleteCommand extends BaseCommand{
@@ -10,25 +10,25 @@ public class DeleteCommand extends BaseCommand{
 		bePlayer = false;
 		name = "delete";
 		argLength = 1;
-		usage = "<name> <- delete exist theme";
+		usage = "<name> <- delete exist project";
 	}
 
 	@Override
 	public boolean execute() {
-		Theme theme = plugin.getTheme(args.get(0));
-		if (theme == null){
-			Actions.message(sender, null, "&cそのテーマ名は存在しません！");
+		Project project = plugin.getProject(args.get(0));
+		if (project == null){
+			Actions.message(sender, null, "&cそのプロジェクト名は存在しません！");
 			return true;
 		}
 
-		// テーマリストから削除
-		plugin.themes.remove(args.get(0));
+		// プロジェクトリストから削除
+		plugin.projects.remove(args.get(0));
 
-		// テーマデータファイルを削除
-		String fileDir = plugin.getDataFolder() + System.getProperty("file.separator") + "themeData";
+		// プロジェクトデータファイルを削除
+		String fileDir = plugin.getDataFolder() + System.getProperty("file.separator") + "projectData";
 		boolean deleted = false;
 		try{
-			File file = new File(fileDir + System.getProperty("file.separator") + theme.getFileName());
+			File file = new File(fileDir + System.getProperty("file.separator") + project.getFileName());
 			if (file.exists()){
 				deleted = file.delete();
 			}
@@ -38,14 +38,14 @@ public class DeleteCommand extends BaseCommand{
 		}
 
 		if (!deleted)
-			Actions.message(sender, null, "&cテーマ'"+args.get(0)+"'のテーマデータファイル削除中にエラーが発生しました！");
+			Actions.message(sender, null, "&cプロジェクト'"+args.get(0)+"'のプロジェクトデータファイル削除中にエラーが発生しました！");
 		else
-			Actions.message(sender, null, "&aテーマ'"+args.get(0)+"'を削除しました！");
+			Actions.message(sender, null, "&aプロジェクト'"+args.get(0)+"'を削除しました！");
 		return true;
 	}
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("theme.admin.delete");
+		return sender.hasPermission("pm.admin.delete");
 	}
 }

@@ -20,32 +20,32 @@ import syam.ProjectManager.Command.ListCommand;
 import syam.ProjectManager.Command.MemberCommand;
 import syam.ProjectManager.Command.SelectCommand;
 import syam.ProjectManager.Command.SetCommand;
-import syam.ProjectManager.Theme.Theme;
-import syam.ProjectManager.Theme.ThemeFileManager;
-import syam.ProjectManager.Theme.ThemeManager;
+import syam.ProjectManager.Project.Project;
+import syam.ProjectManager.Project.ProjectConfigManager;
+import syam.ProjectManager.Project.ProjectFileManager;
 
-public class ThemeCreative extends JavaPlugin{
+public class ProjectManager extends JavaPlugin{
 	// ** Logger **
 	public final static Logger log = Logger.getLogger("Minecraft");
-	public final static String logPrefix = "[ThemeCreative] ";
-	public final static String msgPrefix = "&6[ThemeCreative] &f";
+	public final static String logPrefix = "[ProjectManager] ";
+	public final static String msgPrefix = "&6[ProjectManager] &f";
 
 	// ** Listener **
 
 	// ** Private Classes **
 	private ConfigurationManager config;
-	private ThemeManager tm;
-	private ThemeFileManager tfm;
+	private ProjectConfigManager pcm;
+	private ProjectFileManager pfm;
 
 	// ** Commands **
 	public static List<BaseCommand> commands = new ArrayList<BaseCommand>();
 
 	// ** Variable **
-	// 存在するテーマ <String 一意のテーマID, Theme>
-	public HashMap<String, Theme> themes = new HashMap<String, Theme>();
+	// 存在するプロジェクト <String 一意のプロジェクトID, Project>
+	public HashMap<String, Project> projects = new HashMap<String, Project>();
 
 	// ** Instance **
-	private static ThemeCreative instance;
+	private static ProjectManager instance;
 
 	/**
 	 * プラグイン起動処理
@@ -74,11 +74,11 @@ public class ThemeCreative extends JavaPlugin{
 		registerCommands();
 
 		// マネージャ
-		tm = new ThemeManager(this);
-		tfm = new ThemeFileManager(this);
+		pcm = new ProjectConfigManager(this);
+		pfm = new ProjectFileManager(this);
 
 		// テーマ読み込み
-		tfm.loadThemes();
+		pfm.loadProjects();
 
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
@@ -90,8 +90,8 @@ public class ThemeCreative extends JavaPlugin{
 	 */
 	public void onDisable(){
 		// テーマ保存
-		if (tfm != null){
-			tfm.saveThemes();
+		if (pfm != null){
+			pfm.saveProjects();
 		}
 
 		// メッセージ表示
@@ -123,7 +123,7 @@ public class ThemeCreative extends JavaPlugin{
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]){
-		if (cmd.getName().equalsIgnoreCase("theme")){
+		if (cmd.getName().equalsIgnoreCase("project")){
 			if(args.length == 0){
 				// 引数ゼロはヘルプ表示
 				args = new String[]{"help"};
@@ -150,49 +150,49 @@ public class ThemeCreative extends JavaPlugin{
 	/* getter */
 
 	/**
-	 * テーマを返す
-	 * @param themeName
-	 * @return Theme
+	 * プロジェクトを返す
+	 * @param projectName
+	 * @return Project
 	 */
-	public Theme getTheme(String themeName){
-		if (!themes.containsKey(themeName)){
+	public Project getProject(String projectName){
+		if (!projects.containsKey(projectName)){
 			return null;
 		}else{
-			return themes.get(themeName);
+			return projects.get(projectName);
 		}
 	}
 
 	/**
-	 * プレイヤーが参加しているテーマを返す
+	 * プレイヤーが参加しているプロジェクトを返す
 	 * @param player
 	 * @return
 	 */
-	public List<Theme> getJoinedTheme(String player){
-		List<Theme> joined = new ArrayList<Theme>();
+	public List<Project> getJoinedProject(String player){
+		List<Project> joined = new ArrayList<Project>();
 		joined.clear();
 
-		for (Theme theme : themes.values()){
-			if (theme.isJoined(player))
-				joined.add(theme);
+		for (Project project : projects.values()){
+			if (project.isJoined(player))
+				joined.add(project);
 		}
 
 		return joined;
 	}
 
 	/**
-	 * テーママネージャを返す
+	 * プロジェクト設定マネージャを返す
 	 * @return
 	 */
-	public ThemeManager getManager(){
-		return tm;
+	public ProjectConfigManager getManager(){
+		return pcm;
 	}
 
 	/**
 	 * テーマファイルマネージャを帰す
 	 * @return
 	 */
-	public ThemeFileManager getFileManager(){
-		return tfm;
+	public ProjectFileManager getFileManager(){
+		return pfm;
 	}
 
 	/**
@@ -205,9 +205,9 @@ public class ThemeCreative extends JavaPlugin{
 
 	/**
 	 * インスタンスを返す
-	 * @return ThemeCreativeインスタンス
+	 * @return ProjectManagerインスタンス
 	 */
-	public static ThemeCreative getInstance(){
+	public static ProjectManager getInstance(){
 		return instance;
 	}
 }

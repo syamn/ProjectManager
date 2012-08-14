@@ -18,14 +18,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigurationManager{
-	public final static Logger log = ThemeCreative.log;
-	public final static String logPrefix = ThemeCreative.logPrefix;
-	public final static String msgPrefix = ThemeCreative.msgPrefix;
+	public final static Logger log = ProjectManager.log;
+	public final static String logPrefix = ProjectManager.logPrefix;
+	public final static String msgPrefix = ProjectManager.msgPrefix;
 
 	private JavaPlugin plugin;
 	private FileConfiguration conf;
 
-	private static File pluginDir = new File("plugins", "ThemeCreative");
+	private static File pluginDir = new File("plugins", "ProjectManager");
 
 	// デフォルトの設定定数
 	private final String defaultWorldName = "theme_build";
@@ -137,7 +137,7 @@ public class ConfigurationManager{
 		DataInputStream dis = null;
 		try{
 			// jar内部のリソースファイルを取得
-			URL res = ThemeCreative.class.getResource(from);
+			URL res = ProjectManager.class.getResource(from);
 			if (res == null){
 				log.warning(logPrefix+ "Can't find "+ from +" in plugin Jar file");
 				return;
@@ -189,6 +189,6 @@ public class ConfigurationManager{
 	}
 
 	public static File getJarFile(){
-		return new File("plugins","ThemeCreative.jar");
+		return new File("plugins","ProjectManager.jar");
 	}
 }

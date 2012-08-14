@@ -1,7 +1,7 @@
 package syam.ProjectManager.Command;
 
-import syam.ProjectManager.Theme.Theme;
-import syam.ProjectManager.Theme.ThemeManager;
+import syam.ProjectManager.Project.Project;
+import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Util.Actions;
 
 public class SelectCommand extends BaseCommand{
@@ -9,33 +9,33 @@ public class SelectCommand extends BaseCommand{
 		bePlayer = true;
 		name = "select";
 		argLength = 0;
-		usage = "[name] <- select exist theme";
+		usage = "[name] <- select exist project";
 	}
 
 	@Override
 	public boolean execute() {
 		if (args.size() >= 1){
-			// theme select (テーマ名) - 選択
-			Theme theme = plugin.getTheme(args.get(0));
-			if (theme != null){
-				ThemeManager.setSelectedTheme(player, theme);
-				Actions.message(null, player, "&aテーマ'"+theme.getName()+"'を選択しました！");
+			// project select (プロジェクト名) - 選択
+			Project project = plugin.getProject(args.get(0));
+			if (project != null){
+				ProjectConfigManager.setSelectedProject(player, project);
+				Actions.message(null, player, "&aプロジェクト'"+project.getName()+"'を選択しました！");
 			}else{
-				Actions.message(null, player, "&cテーマ'"+args.get(0)+"'が見つかりません！");
+				Actions.message(null, player, "&cプロジェクト'"+args.get(0)+"'が見つかりません！");
 				return true;
 			}
 		}else{
-			// theme select - 選択解除
-			if (ThemeManager.getSelectedTheme(player) != null){
-				ThemeManager.setSelectedTheme(player, null);
+			// project select - 選択解除
+			if (ProjectConfigManager.getSelectedProject(player) != null){
+				ProjectConfigManager.setSelectedProject(player, null);
 			}
-			Actions.message(null, player, "&aテーマの選択を解除しました！");
+			Actions.message(null, player, "&aプロジェクトの選択を解除しました！");
 		}
 		return true;
 	}
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("theme.admin.select");
+		return sender.hasPermission("pm.admin.select");
 	}
 }

@@ -1,12 +1,12 @@
 package syam.ProjectManager.Enum;
 
 /**
- * テーマ参加者の権限種類を定めます
+ * プロジェクト参加者の権限種類を定めます
  * @author syam
  */
 public enum MemberType {
 	MEMBER("参加者"),		// 一般参加者
-	MANAGER("マネージャ"),	// テーママネージャ
+	MANAGER("マネージャ"),	// プロジェクトマネージャ
 	;
 
 	private String typeName;
