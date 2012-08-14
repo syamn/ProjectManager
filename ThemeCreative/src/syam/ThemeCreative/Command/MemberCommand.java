@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import syam.ThemeCreative.Enum.MemberType;
 import syam.ThemeCreative.Theme.Theme;
 import syam.ThemeCreative.Theme.ThemeManager;
 import syam.ThemeCreative.Util.Actions;
@@ -14,7 +15,7 @@ public class MemberCommand extends BaseCommand{
 		bePlayer = true;
 		name = "member";
 		argLength = 0;
-		usage = "<action> <player> <- manage theme member";
+		usage = "<action> [player] <- manage theme member";
 	}
 
 	/**
@@ -31,12 +32,8 @@ public class MemberCommand extends BaseCommand{
 
 		// 引数チェック
 		if (args.size() <= 0){
-			Actions.message(sender, null, "&c行う管理アクションを指定してください");
+			Actions.message(sender, null, "&c実行する管理アクションを指定してください");
 			sendAvailableAction();
-			return true;
-		}
-		else if(args.size() == 1){
-			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
 			return true;
 		}
 
@@ -54,13 +51,6 @@ public class MemberCommand extends BaseCommand{
 			return true;
 		}
 
-		// プレイヤー名チェック
-		final Pattern pattern = Pattern.compile("^\\w{2,16}$");
-		if (!pattern.matcher(args.get(2)).matches()){
-			Actions.message(sender, null, "&cプレイヤー名が不正です！");
-			return true;
-		}
-
 		// アクションによって処理を分ける
 		switch (ac){
 			// メンバー追加
@@ -69,6 +59,9 @@ public class MemberCommand extends BaseCommand{
 			// メンバー削除
 			case DEL:
 				return del(theme);
+			// メンバーリスト表示
+			case LIST:
+				return list(theme);
 
 
 			// 定義漏れ
@@ -85,7 +78,18 @@ public class MemberCommand extends BaseCommand{
 
 	// ADD - メンバー追加
 	private boolean add(Theme theme){
-		String name = args.get(2);
+		// プレイヤー名チェック
+		if(args.size() == 1){
+			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
+			return true;
+		}
+		final Pattern pattern = Pattern.compile("^\\w{2,16}$");
+		if (!pattern.matcher(args.get(1)).matches()){
+			Actions.message(sender, null, "&cプレイヤー名が不正です！");
+			return true;
+		}
+
+		String name = args.get(1);
 
 		// 既に参加状態かチェック
 		if (theme.isJoined(name)){
@@ -101,7 +105,18 @@ public class MemberCommand extends BaseCommand{
 
 	// DEL - メンバー削除
 	private boolean del(Theme theme){
-		String name = args.get(2);
+		// プレイヤー名チェック
+		if(args.size() == 1){
+			Actions.message(sender, null, "&cアクションを行う対象のプレイヤー名を入力してください");
+			return true;
+		}
+		final Pattern pattern = Pattern.compile("^\\w{2,16}$");
+		if (!pattern.matcher(args.get(1)).matches()){
+			Actions.message(sender, null, "&cプレイヤー名が不正です！");
+			return true;
+		}
+
+		String name = args.get(1);
 
 		// 参加状態かチェック
 		if (!theme.isJoined(name)){
@@ -111,6 +126,28 @@ public class MemberCommand extends BaseCommand{
 
 		theme.remPlayer(name);
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトから除名しました！");
+
+		return true;
+	}
+
+	// LIST - メンバーリスト表示
+	private boolean list(Theme theme){
+		// 人数出力
+		if (theme.getPlayersMap().size() < 1){
+			Actions.message(null, player,"&6このプロジェクトに参加しているプレイヤーはいません");
+			return true;
+		}else{
+			Actions.message(null, player,"&6このプロジェクトには &c"+theme.getPlayersMap().size()+"人 &6のプレイヤーが参加しています");
+		}
+
+		// マネージャ出力
+		if (theme.getPlayersByType(MemberType.MANAGER).size() > 1){
+			Actions.message(null, player,"マネージャ: " + Util.join(theme.getPlayersByType(MemberType.MANAGER), ", "));
+		}
+		// 一般メンバー出力
+		if (theme.getPlayersByType(MemberType.MEMBER).size() > 1){
+			Actions.message(null, player,"メンバー: " + Util.join(theme.getPlayersByType(MemberType.MEMBER), ", "));
+		}
 
 		return true;
 	}
@@ -136,6 +173,7 @@ public class MemberCommand extends BaseCommand{
 	enum Action{
 		ADD,	// メンバー追加
 		DEL,	// メンバー削除
+		LIST,	// メンバーリスト表示
 		;
 	}
 

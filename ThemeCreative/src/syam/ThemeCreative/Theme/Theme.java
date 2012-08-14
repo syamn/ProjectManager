@@ -1,6 +1,8 @@
 package syam.ThemeCreative.Theme;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
@@ -76,6 +78,21 @@ public class Theme{
 
 		return playersMap.get(player);
 	}
+	public Set<String> getPlayersByType(MemberType type){
+		if (type == null) return null;
+
+		Set<String> ret = new HashSet<String>();
+		ret.clear();
+
+		for (Map.Entry<String, MemberType> entry : playersMap.entrySet()){
+			if (entry.getValue().equals(type)){
+				ret.add(entry.getKey());
+			}
+		}
+
+		return ret;
+	}
+
 
 	// isJoined/isManager
 	public boolean isJoined(String player){
@@ -103,7 +120,6 @@ public class Theme{
 		playersMap.clear();
 		this.playersMap = map;
 	}
-
 
 	/* ***** そのほかの getter / setter ***** */
 
