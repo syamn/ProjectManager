@@ -22,7 +22,7 @@ public class ListCommand extends BaseCommand{
 			Actions.message(sender, null, " &7読み込まれているプロジェクトはありません");
 		}else{
 			for (Project project : plugin.projects.values()){
-				String s = "&6"+project.getName()+"&b:タイトル=&6"+project.getTitle()+" &b参加者=&6"+project.getPlayersMap().size()+"人";
+				String s = "&6"+project.getID()+"&b:タイトル=&6"+project.getTitle()+" &b参加者=&6"+project.getPlayersMap().size()+"人";
 
 				// メッセージ送信
 				Actions.message(sender, null, s);

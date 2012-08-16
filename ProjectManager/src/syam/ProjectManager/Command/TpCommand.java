@@ -23,24 +23,25 @@ public class TpCommand extends BaseCommand{
 			List<Project> joined = plugin.getJoinedProject(player.getName());
 			if (joined.size() == 1){
 				project = joined.get(0);
-				Actions.message(null, player, "&a参加中のプロジェクト'"+project.getName()+"'にテレポートします！");
+				Actions.message(null, player, "&a参加中のプロジェクト'"+project.getID()+"'にテレポートします！");
 			}
 			else if(joined.size() == 0){
-				Actions.message(null, player, "&c参加中のプロジェクトがありません！ /project tp ");
+				Actions.message(null, player, "&c参加中のプロジェクトがありません！ /project tp <プロジェクト名>");
 				return true;
 			}
 			else{
-				Actions.message(null, player, "&c参加中のプロジェクトが複数あります！");
+				Actions.message(null, player, "&c参加中のプロジェクトが複数あります！ /project tp <プロジェクト名>");
 				return true;
 			}
 		}else{
 			Project t = plugin.getProject(args.get(0));
-			if (t != null){
+			if (t == null){
+				Actions.message(null, player, "&cプロジェクトID'"+args.get(0)+"'が見つかりません！");
+				return true;
+			}else{
 				project = t;
 			}
 		}
-
-
 
 
 		return true;

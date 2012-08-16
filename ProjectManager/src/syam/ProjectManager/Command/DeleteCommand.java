@@ -10,7 +10,7 @@ public class DeleteCommand extends BaseCommand{
 		bePlayer = false;
 		name = "delete";
 		argLength = 1;
-		usage = "<name> <- delete exist project";
+		usage = "<ID> <- delete exist project";
 	}
 
 	@Override

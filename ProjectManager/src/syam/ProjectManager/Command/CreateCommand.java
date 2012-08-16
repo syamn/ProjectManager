@@ -9,14 +9,14 @@ public class CreateCommand extends BaseCommand{
 		bePlayer = false;
 		name = "create";
 		argLength = 2;
-		usage = "<name> <title> <- create new project";
+		usage = "<ID> <title> <- create new project";
 	}
 
 	@Override
 	public boolean execute() {
 		Project project = plugin.getProject(args.get(0));
 		if (project != null){
-			Actions.message(sender, null, "&cそのプロジェクト名は既に存在します！");
+			Actions.message(sender, null, "&cそのプロジェクトIDは既に存在します！");
 			return true;
 		}
 
@@ -24,7 +24,7 @@ public class CreateCommand extends BaseCommand{
 		project = new Project(plugin, args.get(0), args.get(1));
 		ProjectConfigManager.setSelectedProject(player, project);
 
-		Actions.message(sender, null, "&a新規プロジェクト'"+project.getName()+"'を登録して選択しました！");
+		Actions.message(sender, null, "&a新規プロジェクト'"+project.getID()+"'を登録して選択しました！");
 		return true;
 	}
 

@@ -22,10 +22,10 @@ public class Project{
 	private final ProjectManager plugin;
 
 	/* ***** プロジェクトデータ ***** */
-	private String projectID; // 一意なプロジェクトID ログ用
 	private String fileName; // プロジェクトデータのファイル名
-	private String projectName; // プロジェクト名
+	private String projectID; // プロジェクト名
 	private String projectTitle; // プロジェクトタイトル
+	private boolean creative; // 参加者にクリエイティブを許可するか
 
 	// 参加プレイヤー
 	private Map<String, MemberType> playersMap = new ConcurrentHashMap<String, MemberType>();
@@ -41,14 +41,14 @@ public class Project{
 		this.plugin = plugin;
 
 		// プロジェクトデータ設定
-		this.projectName = name;
+		this.projectID = name;
 		this.projectTitle = title;
 
 		// ファイル名設定
-		this.fileName = this.projectName + ".yml";
+		this.fileName = this.projectID + ".yml";
 
 		// ゲームをメインクラスに登録
-		plugin.projects.put(this.projectName, this);
+		plugin.projects.put(this.projectID, this);
 	}
 
 	/* ***** 参加プレイヤー関係 ***** */
@@ -142,11 +142,13 @@ public class Project{
 		return this.fileName;
 	}
 
-	public String getName(){
-		return projectName;
+	public String getID(){
+		return projectID;
 	}
 
 	public String getTitle(){
 		return projectTitle;
 	}
+
+
 }

@@ -28,11 +28,11 @@ public class ConfigurationManager{
 	private static File pluginDir = new File("plugins", "ProjectManager");
 
 	// デフォルトの設定定数
-	private final String defaultWorldName = "theme_build";
+	//private final String defaultWorldName = "theme_build";
 
 	// 設定項目
 	/* Basic Configs */
-	public String worldName = defaultWorldName;
+	//public String worldName = defaultWorldName;
 	// 設定ここまで
 
 
@@ -73,14 +73,16 @@ public class ConfigurationManager{
 		// 項目取得
 
 		/* Basic Configs */
-		worldName = plugin.getConfig().getString("WorldName", defaultWorldName);
+		//worldName = plugin.getConfig().getString("WorldName", defaultWorldName);
 
 		// ワールドチェック 見つからなければプラグイン無効化
+		/*
 		if (Bukkit.getWorld(worldName) == null){
 			log.warning(logPrefix+ "World "+worldName+" is Not Found! Disabling plugin..");
 			plugin.getPluginLoader().disablePlugin(plugin);
 			return;
 		}
+		*/
 	}
 
 	/**

@@ -9,7 +9,7 @@ public class SelectCommand extends BaseCommand{
 		bePlayer = true;
 		name = "select";
 		argLength = 0;
-		usage = "[name] <- select exist project";
+		usage = "[ID] <- select exist project";
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class SelectCommand extends BaseCommand{
 			Project project = plugin.getProject(args.get(0));
 			if (project != null){
 				ProjectConfigManager.setSelectedProject(player, project);
-				Actions.message(null, player, "&aプロジェクト'"+project.getName()+"'を選択しました！");
+				Actions.message(null, player, "&aプロジェクト'"+project.getID()+"'を選択しました！");
 			}else{
 				Actions.message(null, player, "&cプロジェクト'"+args.get(0)+"'が見つかりません！");
 				return true;

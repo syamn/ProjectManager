@@ -37,13 +37,13 @@ public class ProjectFileManager{
 				"projectData" + System.getProperty("file.separator");
 
 		for (Project project : plugin.projects.values()){
-			File file = new File(fileDir + project.getName() + ".yml");
+			File file = new File(fileDir + project.getID() + ".yml");
 
 			// マップデータをリストに変換
 			List<String> playerList = convertPlayerMap(project.getPlayersMap());
 
 			// 保存するデータ
-			confFile.set("ProjectName", project.getName());
+			confFile.set("ProjectName", project.getID());
 			confFile.set("Title", project.getTitle());
 			confFile.set("WarpLocation", convertPlayerLocation(project.getWarpLocation()));
 

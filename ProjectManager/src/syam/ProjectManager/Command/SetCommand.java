@@ -49,7 +49,9 @@ public class SetCommand extends BaseCommand{
 		switch (conf){
 			case WARP: // ワープ地点設定
 				return setWarp(project);
-
+			
+			case CREATIVE: // クリエイティブ設定
+				return setCreative(project);
 
 			// 定義漏れ
 			default:
@@ -66,10 +68,14 @@ public class SetCommand extends BaseCommand{
 	private boolean setWarp(Project project){
 		project.setWarpLocation(player.getLocation());
 
-		Actions.message(null, player, "&aプロジェクト'"+project.getName()+"'のワープ地点を設定しました！");
+		Actions.message(null, player, "&aプロジェクトID'"+project.getID()+"'のワープ地点を設定しました！");
 		return true;
 	}
 
+	private boolean setCreative(Project project){
+		
+	}
+	
 	/* ***** ここまで **************************************** */
 
 	private void sendAvailableConf(){
@@ -87,6 +93,7 @@ public class SetCommand extends BaseCommand{
 	 */
 	enum Configables{
 		WARP("ワープ地点"),
+		CREATIVE("クリエイティブ"),
 		;
 
 		private String name;
@@ -102,6 +109,6 @@ public class SetCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("pm.admin.set");
+		return sender.hasPermission("pm.manager.set");
 	}
 }

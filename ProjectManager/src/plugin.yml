@@ -28,6 +28,6 @@ permissions:
     pm.user.member:
         default: op
         description: Allow use member command
-    pm.admin.set:
+    pm.user.set:
         default: op
         description: Allow use set command
