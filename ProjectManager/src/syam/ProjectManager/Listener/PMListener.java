@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Project.Project;
+import syam.ProjectManager.Util.Actions;
 import syam.ProjectManager.Util.Cuboid;
 
 public class PMListener implements Listener{
@@ -39,7 +40,7 @@ public class PMListener implements Listener{
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
 
-		if (!canBuild(block.getLocation(), player)){
+		if (!canBuild(block.getLocation(), player, true)){
 			event.setCancelled(true);
 		}
 	}
@@ -53,7 +54,7 @@ public class PMListener implements Listener{
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
 
-		if (!canBuild(block.getLocation(), player)){
+		if (!canBuild(block.getLocation(), player, true)){
 			event.setCancelled(true);
 		}
 	}
@@ -67,14 +68,14 @@ public class PMListener implements Listener{
 		Block block = event.getBlockClicked();
 		Player player = event.getPlayer();
 
-		if (!canBuild(block.getLocation(), player)){
+		if (!canBuild(block.getLocation(), player, true)){
 			event.setCancelled(true);
 		}
 	}
 
 	/* **************************************** */
 
-	private boolean canBuild(Location loc, Player player){
+	private boolean canBuild(Location loc, Player player, boolean sendError){
 		boolean inRegion = false;
 
 		// すべてのプロジェクトをチェック
@@ -94,6 +95,7 @@ public class PMListener implements Listener{
 
 			// エリア内 + メンバー外 なら建築禁止
 			else{
+				if (sendError) Actions.message(null, player, "&cここはプロジェクト'&6"+project.getTitle()+"&c'の保護エリアです");
 				return false;
 			}
 		}
@@ -102,6 +104,7 @@ public class PMListener implements Listener{
 		if (!inRegion){
 			// 保護ワールドかチェック
 			if (plugin.getConfigs().protectedWorlds.contains(loc.getWorld().getName())){
+				if (sendError) Actions.message(null, player, msgPrefix+"&cこのワールドは保護されています！");
 				return false;
 			}
 		}
