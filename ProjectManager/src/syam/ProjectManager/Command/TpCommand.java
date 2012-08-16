@@ -14,7 +14,7 @@ import syam.ProjectManager.Util.Actions;
 public class TpCommand extends BaseCommand{
 	public TpCommand(){
 		bePlayer = true;
-		name = "list";
+		name = "tp";
 		argLength = 0;
 		usage = "[project] <- tp to specific project";
 	}

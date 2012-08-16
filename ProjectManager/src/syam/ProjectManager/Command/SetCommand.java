@@ -103,7 +103,7 @@ public class SetCommand extends BaseCommand{
 		}else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("no")){
 			creative = false;
 		}else{
-			Actions.message(sender, null, "&c値が不正です！true または false を指定してください！");
+			Actions.message(sender, null, "&c値が不正です！ true または false を指定してください！");
 			return true;
 		}
 
@@ -112,7 +112,7 @@ public class SetCommand extends BaseCommand{
 		else result = "&c無効";
 
 		project.setCreative(creative);
-		Actions.message(sender, null, "aプロジェクトID'"+project.getID()+"'のクリエイティブモードは"+result+"&aに設定されました！");
+		Actions.message(sender, null, "&aプロジェクトID'"+project.getID()+"'のクリエイティブモードは"+result+"&aに設定されました！");
 
 		return true;
 	}
