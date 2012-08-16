@@ -45,6 +45,23 @@ public class SetCommand extends BaseCommand{
 			return true;
 		}
 
+		// Check Permission
+
+		// プロジェクトマネージャ または管理権限を持っているプレイヤー以外からの設定を拒否
+		if (!project.isManager(player.getName()) && !player.hasPermission("pm.admin.editAllProject")){
+			Actions.message(sender, null, "&cあなたはこのプロジェクトのマネージャではありません！");
+			return true;
+		}
+
+		// クリエイティブモードの設定は特殊権限が必要
+		if (conf.equals(Configables.CREATIVE) && !player.hasPermission("pm.admin.set.creative")){
+			Actions.message(sender, null, "&cあなたはクリエイティブモードの設定を変更する権限がありません！");
+			return true;
+		}
+
+		// Permission OK
+
+
 		// 設定項目によって処理を分ける
 		switch (conf){
 			case WARP: // ワープ地点設定

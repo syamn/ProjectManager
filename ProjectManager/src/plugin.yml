@@ -16,12 +16,18 @@ permissions:
     pm.admin.create:
         default: op
         description: Allow create the new project
-    pm.admin.select:
-        default: op
-        description: Allow select the project
     pm.admin.delete:
         default: op
         description: Allow delete the project
+    pm.admin.editAllProject:
+        default: op
+        description: Allow management all project
+    pm.admin.set.creative:
+        default: op
+        description: Allow set creative config
+    pm.user.select:
+        default: op
+        description: Allow select the project
     pm.user.list:
         default: op
         description: Allow use list command

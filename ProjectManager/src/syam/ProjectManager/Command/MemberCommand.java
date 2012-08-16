@@ -51,6 +51,16 @@ public class MemberCommand extends BaseCommand{
 			return true;
 		}
 
+		// Check Permission
+
+		// プロジェクトマネージャ または管理権限を持っているプレイヤー以外からの設定を拒否
+		if (ac.getNeedManager() && (!project.isManager(player.getName()) && !player.hasPermission("pm.admin.editAllProject"))){
+			Actions.message(sender, null, "&cこの操作を行うにはマネージャ権限が必要です！");
+			return true;
+		}
+
+		// Permission OK
+
 		// アクションによって処理を分ける
 		switch (ac){
 			// メンバーリスト表示
@@ -246,12 +256,22 @@ public class MemberCommand extends BaseCommand{
 	 * @author syam
 	 */
 	enum Action{
-		LIST,		// メンバーリスト表示
-		ADD,		// メンバー追加
-		DEL,		// メンバー削除
-		PROMOTION,	// マネージャにする
-		DEMOTION,	// マネージャを解除する
+		LIST(false),	// メンバーリスト表示
+		ADD(true),		// メンバー追加
+		DEL(true),		// メンバー削除
+		PROMOTION(true),// マネージャにする
+		DEMOTION(true),	// マネージャを解除する
 		;
+
+		private boolean needManager;
+
+		Action(boolean checkManager){
+			this.needManager = checkManager;
+		}
+
+		public boolean getNeedManager(){
+			return this.needManager;
+		}
 	}
 
 	@Override
