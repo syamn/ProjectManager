@@ -97,7 +97,7 @@ public class SetCommand extends BaseCommand{
 
 		project.setWarpLocation(player.getLocation());
 
-		Actions.message(null, player, "&aプロジェクトID'"+project.getID()+"'のワープ地点を設定しました！");
+		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'のワープ地点を設定しました！");
 		return true;
 	}
 
@@ -151,7 +151,7 @@ public class SetCommand extends BaseCommand{
 		else result = "&c無効";
 
 		project.setCreative(creative);
-		Actions.message(sender, null, "&aプロジェクトID'"+project.getID()+"'のクリエイティブモードは"+result+"&aに設定されました！");
+		Actions.message(sender, null, "&aプロジェクトID'&6"+project.getID()+"&a'のクリエイティブモードは"+result+"&aに設定されました！");
 
 		return true;
 	}
