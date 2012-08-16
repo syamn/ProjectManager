@@ -4,7 +4,7 @@ version: 0.1
 main: syam.ProjectManager.ProjectManager
 description: ProjectManager Plugin for SakuraServer
 website: http://sakura-server.net/
-softdepend: [WorldEdit]
+#softdepend: [WorldEdit]
 ##  Original Author     ##
 author: syam
 commands:
