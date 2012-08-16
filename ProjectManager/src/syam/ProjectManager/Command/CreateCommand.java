@@ -25,6 +25,10 @@ public class CreateCommand extends BaseCommand{
 		ProjectConfigManager.setSelectedProject(player, project);
 
 		Actions.message(sender, null, "&a新規プロジェクト'"+project.getID()+"'を登録して選択しました！");
+		//Actions.broadcastMessage(msgPrefix + "&a新プロジェクト'"+project.getTitle()+"'&7[ID: "+project.getID()+"]&aが登録されました！");
+
+		plugin.getFileManager().saveProjects();
+
 		return true;
 	}
 

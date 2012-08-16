@@ -129,19 +129,25 @@ public class Project{
 	public void message(String message){
 		for (String name : getPlayersMap().keySet()){
 			if (name == null) continue;
-			Player player = Bukkit.getPlayer(name);
+			Player player = Bukkit.getPlayerExact(name);
 			if (player != null && player.isOnline())
 				Actions.message(null, player, message);
 		}
 	}
+	@Deprecated
 	public void messageSkip(String message, String[] skipPlayer){
+		// TODO: broken method?
 		for (String name : getPlayersMap().keySet()){
+			boolean send = true;
 			if (name == null) continue;
 			if (skipPlayer != null){
 				for (String check : skipPlayer){
-					if (name.equalsIgnoreCase(check)) continue;
+					if (name.equalsIgnoreCase(check))
+						send = false;
 				}
 			}
+			if (!send) continue;
+
 			Player player = Bukkit.getPlayer(name);
 			if (player != null && player.isOnline())
 				Actions.message(null, player, message);

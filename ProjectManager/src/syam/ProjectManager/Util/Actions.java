@@ -260,7 +260,7 @@ public class Actions{
 		ret.clear();
 
 		for (String name : set){
-			Player player = Bukkit.getPlayer(name);
+			Player player = Bukkit.getPlayerExact(name);
 			if (player == null){
 				if (offlinePrefix == null) ret.add(name);
 				else ret.add(offlinePrefix + name);
