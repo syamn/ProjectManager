@@ -28,7 +28,7 @@ public class SetCommand extends BaseCommand{
 		}
 
 		// プロジェクト取得
-		Project project = ProjectConfigManager.getSelectedProject(player);
+		Project project = ProjectConfigManager.getSelectedProject(player.getName());
 		if (project == null){
 			Actions.message(null, player, "&c先に編集するプロジェクトを選択してください");
 			return true;

@@ -6,7 +6,7 @@ import syam.ProjectManager.Util.Actions;
 
 public class SelectCommand extends BaseCommand{
 	public SelectCommand(){
-		bePlayer = true;
+		bePlayer = false;
 		name = "select";
 		argLength = 0;
 		usage = "[ID] <- select exist project";
@@ -18,18 +18,18 @@ public class SelectCommand extends BaseCommand{
 			// project select (プロジェクト名) - 選択
 			Project project = plugin.getProject(args.get(0));
 			if (project != null){
-				ProjectConfigManager.setSelectedProject(player, project);
-				Actions.message(null, player, "&aプロジェクト'"+project.getID()+"'を選択しました！");
+				ProjectConfigManager.setSelectedProject(sender.getName(), project);
+				Actions.message(sender, null, "&aプロジェクト'"+project.getID()+"'を選択しました！");
 			}else{
-				Actions.message(null, player, "&cプロジェクト'"+args.get(0)+"'が見つかりません！");
+				Actions.message(sender, null, "&cプロジェクト'"+args.get(0)+"'が見つかりません！");
 				return true;
 			}
 		}else{
 			// project select - 選択解除
-			if (ProjectConfigManager.getSelectedProject(player) != null){
-				ProjectConfigManager.setSelectedProject(player, null);
+			if (ProjectConfigManager.getSelectedProject(sender.getName()) != null){
+				ProjectConfigManager.setSelectedProject(sender.getName(), null);
 			}
-			Actions.message(null, player, "&aプロジェクトの選択を解除しました！");
+			Actions.message(sender, null, "&aプロジェクトの選択を解除しました！");
 		}
 		return true;
 	}

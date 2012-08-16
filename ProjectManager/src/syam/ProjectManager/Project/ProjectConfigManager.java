@@ -30,8 +30,8 @@ public class ProjectConfigManager{
 	 * @param player 対象プレイヤー
 	 * @param game 対象プロジェクト
 	 */
-	public static void setSelectedProject(Player player, Project project){
-		selectedProject.put(player.getName(), project);
+	public static void setSelectedProject(String player, Project project){
+		selectedProject.put(player, project);
 	}
 
 	/**
@@ -39,11 +39,11 @@ public class ProjectConfigManager{
 	 * @param player 対象のプレイヤー
 	 * @return null または対象のプロジェクト
 	 */
-	public static Project getSelectedProject(Player player){
-		if (player == null || !selectedProject.containsKey(player.getName())){
+	public static Project getSelectedProject(String player){
+		if (player == null || !selectedProject.containsKey(player)){
 			return null;
 		}else{
-			return selectedProject.get(player.getName());
+			return selectedProject.get(player);
 		}
 	}
 }

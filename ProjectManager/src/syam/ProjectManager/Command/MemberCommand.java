@@ -15,7 +15,7 @@ import syam.ProjectManager.Util.Util;
 
 public class MemberCommand extends BaseCommand{
 	public MemberCommand(){
-		bePlayer = true;
+		bePlayer = false;
 		name = "member";
 		argLength = 0;
 		usage = "<action> [player] <- manage project member";
@@ -27,9 +27,9 @@ public class MemberCommand extends BaseCommand{
 	@Override
 	public boolean execute() {
 		// プロジェクト取得
-		Project project = ProjectConfigManager.getSelectedProject(player);
+		Project project = ProjectConfigManager.getSelectedProject(sender.getName());
 		if (project == null){
-			Actions.message(null, player, "&c先に管理するプロジェクトを選択してください");
+			Actions.message(sender, null, "&c先に管理するプロジェクトを選択してください");
 			return true;
 		}
 
@@ -98,19 +98,19 @@ public class MemberCommand extends BaseCommand{
 	private boolean list(Project project){
 		// 人数出力
 		if (project.getPlayersMap().size() < 1){
-			Actions.message(null, player,"&6このプロジェクトに参加しているプレイヤーはいません");
+			Actions.message(sender, null,"&6このプロジェクトに参加しているプレイヤーはいません");
 			return true;
 		}else{
-			Actions.message(null, player,"&6このプロジェクトには &c"+project.getPlayersMap().size()+"人 &6のプレイヤーが参加しています");
+			Actions.message(sender, null,"&6このプロジェクトには &c"+project.getPlayersMap().size()+"人 &6のプレイヤーが参加しています");
 		}
 
 		// マネージャ出力
 		if (project.getPlayersByType(MemberType.MANAGER).size() >= 1){
-			Actions.message(null, player,"&6マネージャー:&f " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MANAGER), "&b", null), "&f, "));
+			Actions.message(sender, null,"&6マネージャー:&f " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MANAGER), "&b", null), "&f, "));
 		}
 		// 一般メンバー出力
 		if (project.getPlayersByType(MemberType.MEMBER).size() >= 1){
-			Actions.message(null, player,"&6メンバー:&f " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MEMBER), "&b",null), "&f, "));
+			Actions.message(sender, null,"&6メンバー:&f " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MEMBER), "&b",null), "&f, "));
 		}
 
 		return true;
@@ -133,16 +133,16 @@ public class MemberCommand extends BaseCommand{
 
 		// 既に参加状態かチェック
 		if (project.isJoined(name)){
-			Actions.message(null, player, "&cそのプレイヤーは既にメンバーになっています！");
+			Actions.message(sender, null, "&cそのプレイヤーは既にメンバーになっています！");
 			return true;
 		}
 
 		project.addMember(name);
 
 		// 通知
-		Actions.message(null, player, "&aプレイヤー '&6" + name + "&a' をプロジェクトメンバーに追加しました！");
+		Actions.message(sender, null, "&aプレイヤー '&6" + name + "&a' をプロジェクトメンバーに追加しました！");
 		Player p = Bukkit.getPlayerExact(name);
-		if (p != null) Actions.message(null, p, "&aあなたは &6"+player.getName()+"&a によってプロジェクト'&6"+project.getTitle()+"&a'に追加されました！");
+		if (p != null) Actions.message(null, p, "&aあなたは &6"+sender.getName()+"&a によってプロジェクト'&6"+project.getTitle()+"&a'に追加されました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'にプレイヤー &6"+name+"&a が追加されました！");
 
@@ -166,21 +166,21 @@ public class MemberCommand extends BaseCommand{
 
 		// 参加状態かチェック
 		if (!project.isJoined(name)){
-			Actions.message(null, player, "&cそのプレイヤーはこのプロジェクトに参加していません");
+			Actions.message(sender, null, "&cそのプレイヤーはこのプロジェクトに参加していません");
 			return true;
 		}
 
-		if (name.equals(player.getName())){
-			Actions.message(null, player, "&c自分をメンバーから削除することはできません");
+		if (name.equals(sender.getName())){
+			Actions.message(sender, null, "&c自分をメンバーから削除することはできません");
 			return true;
 		}
 
 		project.remPlayer(name);
 
 		// 通知
-		Actions.message(null, player, "&aプレイヤー '&6" + name + "&a' をプロジェクトから除名しました！");
+		Actions.message(sender, null, "&aプレイヤー '&6" + name + "&a' をプロジェクトから除名しました！");
 		Player p = Bukkit.getPlayerExact(name);
-		if (p != null) Actions.message(null, p, "&cあなたは &6"+player.getName()+"&c によってプロジェクト'&6"+project.getTitle()+"&c'から除名されました！");
+		if (p != null) Actions.message(null, p, "&cあなたは &6"+sender.getName()+"&c によってプロジェクト'&6"+project.getTitle()+"&c'から除名されました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'からメンバー &6"+name+"&a が除名されました！");
 
@@ -214,9 +214,9 @@ public class MemberCommand extends BaseCommand{
 		project.addManager(name);
 
 		// 通知
-		Actions.message(null, player, "&aプレイヤー '&6" + name + "&a' をプロジェクトマネージャ権限を付与しました！");
+		Actions.message(sender, null, "&aプレイヤー '&6" + name + "&a' をプロジェクトマネージャ権限を付与しました！");
 		Player p = Bukkit.getPlayerExact(name);
-		if (p != null) Actions.message(null, p, "&aあなたは&f "+player.getName()+" &aによってプロジェクト'&6"+project.getTitle()+"&a'のマネージャになりました！");
+		if (p != null) Actions.message(null, p, "&aあなたは&f "+sender.getName()+" &aによってプロジェクト'&6"+project.getTitle()+"&a'のマネージャになりました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'でメンバー &6"+name+"&a が新規マネージャになりました！");
 
@@ -246,17 +246,17 @@ public class MemberCommand extends BaseCommand{
 			Actions.message(sender, null, "&cプレイヤー'&6"+name+"&c'はプロジェクトに参加していません");
 			return true;
 		}
-		if (name.equals(player.getName())){
-			Actions.message(null, player, "&c自分を降格させることはできません！");
+		if (name.equals(sender.getName())){
+			Actions.message(sender, null, "&c自分を降格させることはできません！");
 			return true;
 		}
 
 		project.addMember(name);
 
 		// 通知
-		Actions.message(null, player, "&aプレイヤー '&6" + name + "&a' をプロジェクトマネージャ権限を剥奪しました！");
+		Actions.message(sender, null, "&aプレイヤー '&6" + name + "&a' をプロジェクトマネージャ権限を剥奪しました！");
 		Player p = Bukkit.getPlayerExact(name);
-		if (p != null) Actions.message(null, p, "&cあなたは &6"+player.getName()+"&c によってプロジェクト'&6"+project.getTitle()+"&c'のマネージャ権限を剥奪されました！");
+		if (p != null) Actions.message(null, p, "&cあなたは &6"+sender.getName()+"&c によってプロジェクト'&6"+project.getTitle()+"&c'のマネージャ権限を剥奪されました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'で &6"+name+"&a がマネージャ権を剥奪されました！");
 

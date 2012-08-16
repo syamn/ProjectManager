@@ -22,7 +22,7 @@ public class CreateCommand extends BaseCommand{
 
 		// 新規プロジェクト登録
 		project = new Project(plugin, args.get(0), args.get(1));
-		ProjectConfigManager.setSelectedProject(player, project);
+		ProjectConfigManager.setSelectedProject(player.getName(), project);
 
 		Actions.message(sender, null, "&a新規プロジェクト'"+project.getID()+"'を登録して選択しました！");
 		//Actions.broadcastMessage(msgPrefix + "&a新プロジェクト'"+project.getTitle()+"'&7[ID: "+project.getID()+"]&aが登録されました！");
