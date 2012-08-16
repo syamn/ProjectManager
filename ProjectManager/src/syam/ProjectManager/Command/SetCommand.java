@@ -49,7 +49,7 @@ public class SetCommand extends BaseCommand{
 		switch (conf){
 			case WARP: // ワープ地点設定
 				return setWarp(project);
-			
+
 			case CREATIVE: // クリエイティブ設定
 				return setCreative(project);
 
@@ -73,9 +73,33 @@ public class SetCommand extends BaseCommand{
 	}
 
 	private boolean setCreative(Project project){
-		
+		if (args.size() <= 1){
+			Actions.message(sender, null, "&c true または false を指定してください！");
+			return true;
+		}
+
+		Boolean creative = false; // デフォルトfalse
+		String value = args.get(1).trim();
+
+		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes")){
+			creative = true;
+		}else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("no")){
+			creative = false;
+		}else{
+			Actions.message(sender, null, "&c値が不正です！true または false を指定してください！");
+			return true;
+		}
+
+		String result = "";
+		if (creative) result = "&a有効";
+		else result = "&c無効";
+
+		project.setCreative(creative);
+		Actions.message(sender, null, "aプロジェクトID'"+project.getID()+"'のクリエイティブモードは"+result+"&aに設定されました！");
+
+		return true;
 	}
-	
+
 	/* ***** ここまで **************************************** */
 
 	private void sendAvailableConf(){

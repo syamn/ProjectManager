@@ -45,6 +45,7 @@ public class ProjectFileManager{
 			// 保存するデータ
 			confFile.set("ProjectName", project.getID());
 			confFile.set("Title", project.getTitle());
+			confFile.set("Creative", project.getCreative());
 			confFile.set("WarpLocation", convertPlayerLocation(project.getWarpLocation()));
 
 			confFile.set("Players", playerList);
@@ -89,6 +90,7 @@ public class ProjectFileManager{
 				project.setFileName(file.getName());
 
 				// 各設定データを追加
+				project.setCreative(confFile.getBoolean("Creative", false));
 				project.setWarpLocation(convertPlayerLocation(confFile.getString("WarpLocation", null)));
 				project.setPlayersMap(convertPlayerMap(confFile.getStringList("Players")));
 

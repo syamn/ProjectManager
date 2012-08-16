@@ -150,5 +150,10 @@ public class Project{
 		return projectTitle;
 	}
 
-
+	public void setCreative(boolean bool){
+		this.creative = bool;
+	}
+	public boolean getCreative(){
+		return this.creative;
+	}
 }
