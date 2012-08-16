@@ -109,6 +109,7 @@ public class Project{
 			return true;
 		else
 			return false;
+
 	}
 	public boolean isManager(String player){
 		if (!isJoined(player)) return false;

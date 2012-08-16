@@ -129,22 +129,25 @@ public class MemberCommand extends BaseCommand{
 			return true;
 		}
 
-		String name = args.get(1);
+		Player p = Bukkit.getPlayer(args.get(1));
+		if (p == null){
+			Actions.message(sender, null, "&cそのプレイヤーはオフラインです！");
+			return true;
+		}
 
 		// 既に参加状態かチェック
-		if (project.isJoined(name)){
+		if (project.isJoined(p.getName())){
 			Actions.message(sender, null, "&cそのプレイヤーは既にメンバーになっています！");
 			return true;
 		}
 
-		project.addMember(name);
+		project.addMember(p.getName());
 
 		// 通知
-		Actions.message(sender, null, "&aプレイヤー '&6" + name + "&a' をプロジェクトメンバーに追加しました！");
-		Player p = Bukkit.getPlayerExact(name);
-		if (p != null) Actions.message(null, p, "&aあなたは &6"+sender.getName()+"&a によってプロジェクト'&6"+project.getTitle()+"&a'に追加されました！");
+		Actions.message(sender, null, "&aプレイヤー '&6" + p.getName() + "&a' をプロジェクトメンバーに追加しました！");
+		Actions.message(null, p, "&aあなたは &6"+sender.getName()+"&a によってプロジェクト'&6"+project.getTitle()+"&a'に追加されました！");
 
-		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'にプレイヤー &6"+name+"&a が追加されました！");
+		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'にプレイヤー &6"+p.getName()+"&a が追加されました！");
 
 		return true;
 	}
