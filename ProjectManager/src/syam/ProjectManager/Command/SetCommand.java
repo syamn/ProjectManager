@@ -83,6 +83,11 @@ public class SetCommand extends BaseCommand{
 	/* ***** ここから各設定関数 ****************************** */
 
 	private boolean setWarp(Project project){
+		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(project.getWarpLocation().getWorld().getName())){
+			Actions.message(null, player, "&cプロジェクトがクリエイティブモード設定なので、このワールドで拠点設定できません！");
+			return true;
+		}
+
 		project.setWarpLocation(player.getLocation());
 
 		Actions.message(null, player, "&aプロジェクトID'"+project.getID()+"'のワープ地点を設定しました！");
@@ -99,6 +104,11 @@ public class SetCommand extends BaseCommand{
 		String value = args.get(1).trim();
 
 		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes")){
+			if (project.getWarpLocation() != null && !plugin.getConfigs().creativeWorlds.contains(project.getWarpLocation().getWorld().getName())){
+				Actions.message(null, player, "&cプロジェクトの拠点がクリエイティブモードになれるワールドではありません！");
+				project.setCreative(false);
+				return true;
+			}
 			creative = true;
 		}else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("no")){
 			creative = false;

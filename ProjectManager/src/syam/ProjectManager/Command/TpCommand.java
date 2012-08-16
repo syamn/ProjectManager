@@ -59,7 +59,7 @@ public class TpCommand extends BaseCommand{
 		player.teleport(loc, TeleportCause.PLUGIN);
 
 		// Check project gamemode
-		if (project.getCreative()){
+		if (project.getCreative() && plugin.getConfigs().creativeWorlds.contains(player.getWorld().getName())){
 			player.setGameMode(GameMode.CREATIVE);
 			Actions.message(null, player, "&aこのプロジェクトはクリエイティブモードが有効になっています！");
 		}else{

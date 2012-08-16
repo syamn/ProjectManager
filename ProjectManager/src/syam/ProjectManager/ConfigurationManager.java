@@ -32,7 +32,7 @@ public class ConfigurationManager{
 
 	// 設定項目
 	/* Basic Configs */
-	//public String worldName = defaultWorldName;
+	public List<String> creativeWorlds = new ArrayList<String>();
 	// 設定ここまで
 
 
@@ -73,7 +73,7 @@ public class ConfigurationManager{
 		// 項目取得
 
 		/* Basic Configs */
-		//worldName = plugin.getConfig().getString("WorldName", defaultWorldName);
+		creativeWorlds = plugin.getConfig().getStringList("CreativeWorlds");
 
 		// ワールドチェック 見つからなければプラグイン無効化
 		/*
