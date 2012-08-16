@@ -106,11 +106,11 @@ public class MemberCommand extends BaseCommand{
 
 		// マネージャ出力
 		if (project.getPlayersByType(MemberType.MANAGER).size() >= 1){
-			Actions.message(null, player,"マネージャ: " + Util.join(project.getPlayersByType(MemberType.MANAGER), ", "));
+			Actions.message(null, player,"マネージャ: " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MANAGER), "&b", null), "&f, "));
 		}
 		// 一般メンバー出力
 		if (project.getPlayersByType(MemberType.MEMBER).size() >= 1){
-			Actions.message(null, player,"メンバー: " + Util.join(project.getPlayersByType(MemberType.MEMBER), ", "));
+			Actions.message(null, player,"メンバー: " + Util.join(Actions.coloringPlayerSet(project.getPlayersByType(MemberType.MEMBER), "&b",null), "&f, "));
 		}
 
 		return true;

@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -181,83 +183,6 @@ public class Actions{
 			Actions.message(null, (Player) syamn, msg);
 		}
 	}
-
-	/****************************************/
-	// FlagGame
-	/****************************************/
-	/**
-	 * 真上の指定したブロックとは違うブロックを返す (ドアの上ブロック取得用)
-	 * @param block 指定したブロック
-	 * @return 真上にある違うブロック
-	 */
-	public static Block getTopBlock(final Block block){
-		// 一つ上のブロック
-		Block upBlock = block.getRelative(BlockFace.UP);
-
-		if (upBlock.getY() >= 256) return null; // 無限再帰呼び出しの回避
-		// 今のブロックと一つ上のブロックが違えば上のブロックを返す
-		// 同じなら再帰呼び出しで違うブロックが出るまで繰り返す
-		if (upBlock.getType() != block.getType())
-			return upBlock;
-		else
-			return getTopBlock(upBlock);
-	}
-	/**
-	 * 周囲の保護看板ブロックを返す
-	 * @param block 対象ブロック
-	 * @return 保護看板があればそのBlock、無ければnull
-	 */
-	public static Block getProtectSign(Block block){
-		Block sign = null;
-
-		// 全方向を走査
-		if (isProtectSign(block.getRelative(BlockFace.NORTH), BlockFace.NORTH))
-			sign = block.getRelative(BlockFace.NORTH);
-		else if (isProtectSign(block.getRelative(BlockFace.EAST), BlockFace.EAST))
-			sign = block.getRelative(BlockFace.EAST);
-		else if (isProtectSign(block.getRelative(BlockFace.SOUTH), BlockFace.SOUTH))
-			sign = block.getRelative(BlockFace.SOUTH);
-		else if (isProtectSign(block.getRelative(BlockFace.WEST), BlockFace.WEST))
-			sign = block.getRelative(BlockFace.EAST);
-
-		return sign;
-	}
-	/**
-	 * そのブロックが保護看板か返す
-	 * @param signBlock 対象ブロック
-	 * @param dir チェック元のブロックから見た方角(BlockFace)
-	 * @return 保護看板ならtrue、違えばfalse
-	 */
-	private static boolean isProtectSign(Block signBlock, BlockFace dir){
-		// そもそも壁に付いた看板じゃない
-		if (signBlock.getType() != Material.WALL_SIGN)
-			return false;
-
-		// 張り付いた方向をチェック
-		Byte face = signBlock.getData();
-		switch(dir){
-			case NORTH:
-				if (face != 4) return false; break;
-			case EAST:
-				if (face != 2) return false; break;
-			case SOUTH:
-				if (face != 5) return false; break;
-			case WEST:
-				if (face != 3) return false; break;
-			default:
-				return false;
-		}
-
-		// 看板の1行目チェック
-		Sign sign = (Sign) signBlock.getState();
-		String text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase(); // 色文字は無視
-
-		if (text.equals("[private]") || text.equals("[flag]") || text.equals("[team]"))
-			return true;
-		else
-			return false;
-	}
-
 	/**
 	 * 引数の秒を読みやすい形式の文字列に変換して返す
 	 * @param sec 正の秒数
@@ -327,5 +252,24 @@ public class Actions{
 				player.getWorld().dropItemNaturally(loc, i);
 			}
 		}
+	}
+
+	// オンラインのプレイヤーにだけ色を付けたリストを返す
+	public static Set<String> coloringPlayerSet(Set<String> set, String onlinePrefix, String offlinePrefix){
+		Set<String> ret = new HashSet<String>();
+		ret.clear();
+
+		for (String name : set){
+			Player player = Bukkit.getPlayer(name);
+			if (player == null){
+				if (offlinePrefix == null) ret.add(name);
+				else ret.add(offlinePrefix + name);
+			}else{
+				if (onlinePrefix == null) ret.add(name);
+				else ret.add(onlinePrefix + name);
+			}
+		}
+
+		return ret;
 	}
 }
