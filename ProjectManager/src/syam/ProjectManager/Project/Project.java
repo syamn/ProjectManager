@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Enum.MemberType;
 import syam.ProjectManager.Util.Actions;
+import syam.ProjectManager.Util.Cuboid;
 
 public class Project{
 	// Logger
@@ -33,6 +34,8 @@ public class Project{
 	private Map<String, MemberType> playersMap = new ConcurrentHashMap<String, MemberType>();
 	// ワープ地点
 	private Location warpLoc = null;
+	// エリア
+	private Cuboid area = null;
 
 	/**
 	 * コンストラクタ
@@ -160,6 +163,17 @@ public class Project{
 	}
 	public Location getWarpLocation(){
 		return this.warpLoc;
+	}
+
+	/* 作業エリア */
+	public void setArea(Location pos1, Location pos2){
+		this.area = new Cuboid(pos1, pos2);
+	}
+	public void setArea(Cuboid region){
+		this.area = region;
+	}
+	public Cuboid getArea(){
+		return this.area;
 	}
 
 

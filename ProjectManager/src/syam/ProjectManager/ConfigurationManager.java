@@ -33,6 +33,7 @@ public class ConfigurationManager{
 	// 設定項目
 	/* Basic Configs */
 	public List<String> creativeWorlds = new ArrayList<String>();
+	public List<String> protectedWorlds = new ArrayList<String>();
 	// 設定ここまで
 
 
@@ -74,6 +75,7 @@ public class ConfigurationManager{
 
 		/* Basic Configs */
 		creativeWorlds = plugin.getConfig().getStringList("CreativeWorlds");
+		protectedWorlds = plugin.getConfig().getStringList("ProtectedWorlds");
 
 		// ワールドチェック 見つからなければプラグイン無効化
 		/*

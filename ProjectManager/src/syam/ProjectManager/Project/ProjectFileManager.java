@@ -18,6 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Enum.MemberType;
 import syam.ProjectManager.Util.Actions;
+import syam.ProjectManager.Util.Cuboid;
 
 public class ProjectFileManager{
 	// Logger
@@ -47,6 +48,7 @@ public class ProjectFileManager{
 			confFile.set("Title", project.getTitle());
 			confFile.set("Creative", project.getCreative());
 			confFile.set("WarpLocation", convertPlayerLocation(project.getWarpLocation()));
+			confFile.set("Region", convertCuboid(project.getArea()));
 
 			confFile.set("Players", playerList);
 
@@ -92,6 +94,8 @@ public class ProjectFileManager{
 				// 各設定データを追加
 				project.setCreative(confFile.getBoolean("Creative", false));
 				project.setWarpLocation(convertPlayerLocation(confFile.getString("WarpLocation", null)));
+				project.setArea(convertCuboid(confFile.getString("Region")));
+
 				project.setPlayersMap(convertPlayerMap(confFile.getStringList("Players")));
 
 				log.info(logPrefix+ "Loaded Theme: "+ file.getName()+" ("+name+")");
@@ -174,6 +178,53 @@ public class ProjectFileManager{
 				Double.valueOf(coord[3]),
 				Float.valueOf(coord[4]),
 				Float.valueOf(coord[5])
+				);
+	}
+
+	private String convertCuboid(Cuboid region){
+		if (region == null) return null;
+
+		Location pos1 = region.getPos1();
+		Location pos2 = region.getPos2();
+
+		if (!pos1.getWorld().equals(pos2.getWorld()))
+			return null;
+
+		return convertBlockLocation(pos1) + "@" + convertBlockLocation(pos2);
+	}
+	private Cuboid convertCuboid(String region){
+		if (region == null) return null;
+
+		String[] data = region.split("@");
+		if (data.length != 2) return null;
+
+		Location loc1 = convertBlockLocation(data[0]);
+		Location loc2 = convertBlockLocation(data[1]);
+
+		if (loc1 == null || loc2 == null)
+			return null;
+
+		if (!loc1.getWorld().equals(loc2.getWorld()))
+			return null;
+
+		return new Cuboid(loc1, loc2);
+	}
+
+	private String convertBlockLocation(Location loc){
+		if (loc == null) return null;
+		return loc.getWorld().getName()+","+loc.getX()+","+loc.getY()+","+loc.getZ();
+	}
+	private Location convertBlockLocation(String loc){
+		if (loc == null) return null;
+		String[] coord = loc.split(",");
+		if (coord.length != 4) return null;
+		World world = Bukkit.getWorld(coord[0]);
+		if (world == null) return null;
+		return new Location(
+				world,
+				Double.valueOf(coord[1]),
+				Double.valueOf(coord[2]),
+				Double.valueOf(coord[3])
 				);
 	}
 }

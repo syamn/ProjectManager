@@ -119,7 +119,6 @@ public class ProjectManager extends JavaPlugin{
 		commands.add(new CreateCommand());
 		commands.add(new DeleteCommand());
 		commands.add(new ReloadCommand());
-
 	}
 
 	/**

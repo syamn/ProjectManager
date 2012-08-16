@@ -3,10 +3,13 @@ package syam.ProjectManager.Command;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.block.Block;
+
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Util.Actions;
 import syam.ProjectManager.Util.Util;
+import syam.ProjectManager.Util.WorldEditHandler;
 
 public class SetCommand extends BaseCommand{
 	public SetCommand(){
@@ -52,13 +55,6 @@ public class SetCommand extends BaseCommand{
 			Actions.message(sender, null, "&cあなたはこのプロジェクトのマネージャではありません！");
 			return true;
 		}
-
-		// クリエイティブモードの設定は特殊権限が必要
-		if (conf.equals(Configables.CREATIVE) && !player.hasPermission("pm.admin.set.creative")){
-			Actions.message(sender, null, "&cあなたはクリエイティブモードの設定を変更する権限がありません！");
-			return true;
-		}
-
 		// Permission OK
 
 
@@ -67,7 +63,18 @@ public class SetCommand extends BaseCommand{
 			case WARP: // ワープ地点設定
 				return setWarp(project);
 
+			case REGION: // エリア設定
+				if (!player.hasPermission("pm.admin.set.region")){
+					Actions.message(sender, null, "&cあなたはプロジェクト領域を変更する権限がありません！");
+					return true;
+				}
+				return setRegion(project);
+
 			case CREATIVE: // クリエイティブ設定
+				if (!player.hasPermission("pm.admin.set.creative")){
+					Actions.message(sender, null, "&cあなたはデフォルトモードの設定を変更する権限がありません！");
+					return true;
+				}
 				return setCreative(project);
 
 			// 定義漏れ
@@ -91,6 +98,28 @@ public class SetCommand extends BaseCommand{
 		project.setWarpLocation(player.getLocation());
 
 		Actions.message(null, player, "&aプロジェクトID'"+project.getID()+"'のワープ地点を設定しました！");
+		return true;
+	}
+
+	private boolean setRegion(Project project){
+		// WorldEdit選択領域取得
+		Block[] corners = WorldEditHandler.getWorldEditRegion(player);
+		// エラー プレイヤーへのメッセージ送信はWorldEditHandlerクラスで処理
+		if (corners == null || corners.length != 2) return true;
+
+		Block block1 = corners[0];
+		Block block2 = corners[1];
+
+		// ワールドチェック
+		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(block1.getWorld().getName())){
+			Actions.message(null, player, "&cプロジェクトのモードがクリエイティブになっているため、このワールドでエリアを設定できません");
+			return true;
+		}
+
+		// 設定
+		project.setArea(block1.getLocation(), block2.getLocation());
+		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'の領域を設定しました！");
+
 		return true;
 	}
 
@@ -144,6 +173,7 @@ public class SetCommand extends BaseCommand{
 	 */
 	enum Configables{
 		WARP("ワープ地点"),
+		REGION("エリア"),
 		CREATIVE("クリエイティブ"),
 		;
 

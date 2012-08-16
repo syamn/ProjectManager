@@ -25,6 +25,9 @@ permissions:
     pm.admin.editAllProject:
         default: op
         description: Allow management all project
+    pm.admin.set.region:
+        default: op
+        description: Allow set project region config
     pm.admin.set.creative:
         default: op
         description: Allow set creative config
