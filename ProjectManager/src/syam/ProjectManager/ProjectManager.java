@@ -22,6 +22,7 @@ import syam.ProjectManager.Command.ReloadCommand;
 import syam.ProjectManager.Command.SelectCommand;
 import syam.ProjectManager.Command.SetCommand;
 import syam.ProjectManager.Command.TpCommand;
+import syam.ProjectManager.Listener.PMBlockListener;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Project.ProjectFileManager;
@@ -33,6 +34,7 @@ public class ProjectManager extends JavaPlugin{
 	public final static String msgPrefix = "&6[ProjectManager] &f";
 
 	// ** Listener **
+	private final PMBlockListener blockListener = new PMBlockListener(this);
 
 	// ** Private Classes **
 	private ConfigurationManager config;
@@ -71,6 +73,7 @@ public class ProjectManager extends JavaPlugin{
 		}
 
 		// Register Listeners
+		pm.registerEvents(blockListener, this);
 
 		// コマンド登録
 		registerCommands();
