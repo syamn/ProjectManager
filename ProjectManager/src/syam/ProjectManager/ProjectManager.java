@@ -18,6 +18,7 @@ import syam.ProjectManager.Command.DeleteCommand;
 import syam.ProjectManager.Command.HelpCommand;
 import syam.ProjectManager.Command.ListCommand;
 import syam.ProjectManager.Command.MemberCommand;
+import syam.ProjectManager.Command.ReloadCommand;
 import syam.ProjectManager.Command.SelectCommand;
 import syam.ProjectManager.Command.SetCommand;
 import syam.ProjectManager.Command.TpCommand;
@@ -117,6 +118,7 @@ public class ProjectManager extends JavaPlugin{
 		commands.add(new SelectCommand());
 		commands.add(new CreateCommand());
 		commands.add(new DeleteCommand());
+		commands.add(new ReloadCommand());
 
 	}
 
