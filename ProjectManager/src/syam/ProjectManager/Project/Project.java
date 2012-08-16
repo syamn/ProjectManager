@@ -6,11 +6,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Enum.MemberType;
+import syam.ProjectManager.Util.Actions;
 
 public class Project{
 	// Logger
@@ -96,7 +98,6 @@ public class Project{
 		return ret;
 	}
 
-
 	// isJoined/isManager
 	public boolean isJoined(String player){
 		if (player == null) return false;
@@ -122,6 +123,29 @@ public class Project{
 	public void setPlayersMap(Map<String, MemberType> map){
 		playersMap.clear();
 		this.playersMap = map;
+	}
+
+	/* ***** メッセージ通知 ***** */
+	public void message(String message){
+		for (String name : getPlayersMap().keySet()){
+			if (name == null) continue;
+			Player player = Bukkit.getPlayer(name);
+			if (player != null && player.isOnline())
+				Actions.message(null, player, message);
+		}
+	}
+	public void messageSkip(String message, String[] skipPlayer){
+		for (String name : getPlayersMap().keySet()){
+			if (name == null) continue;
+			if (skipPlayer != null){
+				for (String check : skipPlayer){
+					if (name.equalsIgnoreCase(check)) continue;
+				}
+			}
+			Player player = Bukkit.getPlayer(name);
+			if (player != null && player.isOnline())
+				Actions.message(null, player, message);
+		}
 	}
 
 	/* ワープ地点 */

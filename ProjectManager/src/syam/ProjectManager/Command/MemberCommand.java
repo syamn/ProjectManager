@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import syam.ProjectManager.Enum.MemberType;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Project.ProjectConfigManager;
@@ -135,7 +138,13 @@ public class MemberCommand extends BaseCommand{
 		}
 
 		project.addMember(name);
+
+		// 通知
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトメンバーに追加しました！");
+		Player p = Bukkit.getPlayer(name);
+		if (p != null) Actions.message(null, p, "&aあなたは "+player.getName()+" によってプロジェクト'"+project.getTitle()+"に追加されました！");
+		String[] skip = {name, player.getName()};
+		project.messageSkip("&a参加中のプロジェクト'"+project.getTitle()+"'に新規メンバー "+name+" が追加されました！", skip);
 
 		return true;
 	}
@@ -167,7 +176,13 @@ public class MemberCommand extends BaseCommand{
 		}
 
 		project.remPlayer(name);
+
+		// 通知
 		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトから除名しました！");
+		Player p = Bukkit.getPlayer(name);
+		if (p != null) Actions.message(null, p, "&aあなたは "+player.getName()+" によってプロジェクト'"+project.getTitle()+"から除名されました！");
+		String[] skip = {name, player.getName()};
+		project.messageSkip("&a参加中のプロジェクト'"+project.getTitle()+"'からメンバー "+name+" が除名されました！", skip);
 
 		return true;
 	}
@@ -197,7 +212,13 @@ public class MemberCommand extends BaseCommand{
 		}
 
 		project.addManager(name);
-		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャに昇格させました！");
+
+		// 通知
+		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャ権限を付与しました！");
+		Player p = Bukkit.getPlayer(name);
+		if (p != null) Actions.message(null, p, "&aあなたは "+player.getName()+" によってプロジェクト'"+project.getTitle()+"のマネージャになりました！");
+		String[] skip = {name, player.getName()};
+		project.messageSkip("&a参加中のプロジェクト'"+project.getTitle()+"'でメンバー "+name+" が新規マネージャになりました！", skip);
 
 		return true;
 	}
@@ -231,7 +252,13 @@ public class MemberCommand extends BaseCommand{
 		}
 
 		project.addMember(name);
-		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャから降格させました！");
+
+		// 通知
+		Actions.message(null, player, "&aプレイヤー '" + name + "' をプロジェクトマネージャ権限を剥奪しました！");
+		Player p = Bukkit.getPlayer(name);
+		if (p != null) Actions.message(null, p, "&aあなたは "+player.getName()+" によってプロジェクト'"+project.getTitle()+"のマネージャ権限を剥奪されました！");
+		String[] skip = {name, player.getName()};
+		project.messageSkip("&a参加中のプロジェクト'"+project.getTitle()+"'でメンバー "+name+" がマネージャ権を剥奪されました！", skip);
 
 		return true;
 	}
