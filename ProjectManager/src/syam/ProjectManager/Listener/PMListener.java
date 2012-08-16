@@ -10,21 +10,25 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.painting.PaintingBreakEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import syam.ProjectManager.ProjectManager;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Util.Cuboid;
 
-public class PMBlockListener implements Listener{
+public class PMListener implements Listener{
 	public final static Logger log = ProjectManager.log;
 	public final static String logPrefix = ProjectManager.logPrefix;
 	public final static String msgPrefix = ProjectManager.msgPrefix;
 
 	private final ProjectManager plugin;
 
-	public PMBlockListener(final ProjectManager plugin){
+	public PMListener(final ProjectManager plugin){
 		this.plugin = plugin;
 	}
+
+	/* **************************************** */
 
 	/**
 	 * ブロックを破壊した
@@ -54,6 +58,21 @@ public class PMBlockListener implements Listener{
 		}
 	}
 
+	/**
+	 * バケツを空にした
+	 * @param event
+	 */
+	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+	public void onPlayerBucketEmpty(final PlayerBucketEmptyEvent event) {
+		Block block = event.getBlockClicked();
+		Player player = event.getPlayer();
+
+		if (!canBuild(block.getLocation(), player)){
+			event.setCancelled(true);
+		}
+	}
+
+	/* **************************************** */
 
 	private boolean canBuild(Location loc, Player player){
 		boolean inRegion = false;
