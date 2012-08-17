@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,7 @@ import syam.ProjectManager.Listener.PMListener;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Project.ProjectConfigManager;
 import syam.ProjectManager.Project.ProjectFileManager;
+import syam.ProjectManager.Util.DynmapHandler;
 
 public class ProjectManager extends JavaPlugin{
 	// ** Logger **
@@ -47,6 +49,10 @@ public class ProjectManager extends JavaPlugin{
 	// ** Variable **
 	// 存在するプロジェクト <String 一意のプロジェクトID, Project>
 	public HashMap<String, Project> projects = new HashMap<String, Project>();
+
+	// ** Hookup Plugin **
+	private DynmapHandler dynmap;
+
 
 	// ** Instance **
 	private static ProjectManager instance;
@@ -84,6 +90,10 @@ public class ProjectManager extends JavaPlugin{
 
 		// テーマ読み込み
 		pfm.loadProjects();
+
+		// dynmapフック
+		dynmap = new DynmapHandler(this);
+		dynmap.init();
 
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
@@ -207,6 +217,14 @@ public class ProjectManager extends JavaPlugin{
 	 */
 	public ConfigurationManager getConfigs(){
 		return config;
+	}
+
+	/**
+	 * dynmapハンドラを返す
+	 * @return DynmapHandler
+	 */
+	public DynmapHandler getDynmap(){
+		return dynmap;
 	}
 
 	/**

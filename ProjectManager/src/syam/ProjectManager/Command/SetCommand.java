@@ -120,6 +120,8 @@ public class SetCommand extends BaseCommand{
 		project.setArea(block1.getLocation(), block2.getLocation());
 		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'の領域を設定しました！");
 
+		plugin.getDynmap().updateRegions();
+
 		return true;
 	}
 
