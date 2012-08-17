@@ -190,6 +190,6 @@ public class SetCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("pm.manager.set");
+		return sender.hasPermission("pm.user.set");
 	}
 }
