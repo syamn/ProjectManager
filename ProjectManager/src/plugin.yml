@@ -1,6 +1,6 @@
 ##  Plugin Information  ##
 name: ProjectManager
-version: 0.2
+version: 0.3
 main: syam.ProjectManager.ProjectManager
 description: ProjectManager Plugin for SakuraServer
 website: http://sakura-server.net/
