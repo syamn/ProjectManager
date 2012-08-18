@@ -46,11 +46,12 @@ public class DynmapHandler{
 	// final
 	private final static String defaultInfowindow =
 			"<div class=\"infowindow\">" +
-			"[ProjectManager] プロジェクト情報:<br />" +
-			"<span style=\"font-size:120%;\">%projecttitle% [ID: %projectid%]</span><br />" +
-			"マネージャー <span style=\"font-weight:bold;\">%managers%</span><br />" +
-			"メンバー <span style=\"font-weight:bold;\">%members%</span><br />" +
-			"ゲームモード <span style=\"font-weight:bold;\">%gamemode%</span><br />" +
+			"<u>ProjectManager プロジェクト情報</u><br />" +
+			"<span style=\"font-size:120%;font-weight:bold;\">%projecttitle%</span> [ID: %projectid%]<br />" +
+			"<span style=\"font-weight:bold;\">ゲームモード:</span> %gamemode%<br />" +
+			" * <u>メンバーリスト</u><br />" +
+			"<span style=\"font-weight:bold;\">マネージャー:</span> %managers%<br />" +
+			"<span style=\"font-weight:bold;\">メンバー:</span> %members%<br />" +
 			"</div>";
 
 	public DynmapHandler(final ProjectManager plugin){

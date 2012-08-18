@@ -19,9 +19,9 @@ public class SelectCommand extends BaseCommand{
 			Project project = plugin.getProject(args.get(0));
 			if (project != null){
 				ProjectConfigManager.setSelectedProject(sender.getName(), project);
-				Actions.message(sender, null, "&aプロジェクト'"+project.getID()+"'を選択しました！");
+				Actions.message(sender, null, "&aプロジェクト'&6"+project.getID()+"&a'を選択しました！");
 			}else{
-				Actions.message(sender, null, "&cプロジェクト'"+args.get(0)+"'が見つかりません！");
+				Actions.message(sender, null, "&cプロジェクト'&6"+args.get(0)+"&a'が見つかりません！");
 				return true;
 			}
 		}else{
