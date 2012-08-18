@@ -11,7 +11,7 @@ author: syam
 commands:
     project:
       usage: /project - to see the help
-      aliases: [pj]
+      aliases: [pj, pm]
       description: To see the ProjectManager help.
 permissions:
     pm.admin.create:
