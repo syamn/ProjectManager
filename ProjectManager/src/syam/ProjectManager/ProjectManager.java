@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import syam.ProjectManager.Command.BaseCommand;
 import syam.ProjectManager.Command.CreateCommand;
 import syam.ProjectManager.Command.DeleteCommand;
+import syam.ProjectManager.Command.GmCommand;
 import syam.ProjectManager.Command.HelpCommand;
 import syam.ProjectManager.Command.ListCommand;
 import syam.ProjectManager.Command.MemberCommand;
@@ -129,6 +130,7 @@ public class ProjectManager extends JavaPlugin{
 		commands.add(new SetCommand());
 		commands.add(new ListCommand());
 		commands.add(new TpCommand());
+		commands.add(new GmCommand());
 
 		// Admin Commands
 		commands.add(new SelectCommand());

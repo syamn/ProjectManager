@@ -44,3 +44,6 @@ permissions:
     pm.user.set:
         default: op
         description: Allow use set command
+    pm.user.gm:
+        default: op
+        description: Allow use gm command
