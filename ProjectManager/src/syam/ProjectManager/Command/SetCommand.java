@@ -60,7 +60,7 @@ public class SetCommand extends BaseCommand{
 
 		// 設定項目によって処理を分ける
 		switch (conf){
-			case WARP: // ワープ地点設定
+			case SPAWN: // スポーン地点設定
 				return setSpawn(project);
 
 			case REGION: // エリア設定
@@ -178,7 +178,7 @@ public class SetCommand extends BaseCommand{
 	 * @author syam
 	 */
 	enum Configables{
-		WARP("ワープ地点"),
+		SPAWN("スポーン地点"),
 		REGION("エリア"),
 		CREATIVE("クリエイティブ"),
 		;
