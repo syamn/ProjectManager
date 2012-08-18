@@ -41,6 +41,7 @@ public class DynmapHandler{
 	private MarkerSet set;
 	private Map<String, AreaMarker> resareas = new HashMap<String, AreaMarker>();
 	private String infowindow;
+	private boolean use3D;
 
 	// final
 	private final static String defaultInfowindow =
@@ -97,6 +98,7 @@ public class DynmapHandler{
 
 		// TODO: Load config.yml
 		infowindow = defaultInfowindow;
+		use3D = true;
 
 		// Set markers
 		set = markerapi.getMarkerSet("projectmanager.markerset");
@@ -182,7 +184,11 @@ public class DynmapHandler{
 		else{
 			m.setCornerLocations(x, z);
 			m.setLabel(title);
+		}
 
+		// 3D表示設定
+		if (use3D){
+			m.setRangeY(l1.getY() + 1.0D, l0.getY());
 		}
 
 		// Set/Add styles here..
