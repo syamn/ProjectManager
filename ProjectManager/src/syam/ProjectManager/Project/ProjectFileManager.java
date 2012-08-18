@@ -47,7 +47,7 @@ public class ProjectFileManager{
 			confFile.set("ProjectName", project.getID());
 			confFile.set("Title", project.getTitle());
 			confFile.set("Creative", project.getCreative());
-			confFile.set("WarpLocation", convertPlayerLocation(project.getWarpLocation()));
+			confFile.set("SpawnLocation", convertPlayerLocation(project.getSpawnLocation()));
 			confFile.set("Region", convertCuboid(project.getArea()));
 
 			confFile.set("Players", playerList);
@@ -93,7 +93,7 @@ public class ProjectFileManager{
 
 				// 各設定データを追加
 				project.setCreative(confFile.getBoolean("Creative", false));
-				project.setWarpLocation(convertPlayerLocation(confFile.getString("WarpLocation", null)));
+				project.setSpawnLocation(convertPlayerLocation(confFile.getString("SpawnLocation", null)));
 				project.setArea(convertCuboid(confFile.getString("Region")));
 
 				project.setPlayersMap(convertPlayerMap(confFile.getStringList("Players")));

@@ -61,7 +61,7 @@ public class SetCommand extends BaseCommand{
 		// 設定項目によって処理を分ける
 		switch (conf){
 			case WARP: // ワープ地点設定
-				return setWarp(project);
+				return setSpawn(project);
 
 			case REGION: // エリア設定
 				if (!player.hasPermission("pm.admin.set.region")){
@@ -89,15 +89,15 @@ public class SetCommand extends BaseCommand{
 
 	/* ***** ここから各設定関数 ****************************** */
 
-	private boolean setWarp(Project project){
-		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(project.getWarpLocation().getWorld().getName())){
-			Actions.message(null, player, "&cプロジェクトがクリエイティブモード設定なので、このワールドで拠点設定できません！");
+	private boolean setSpawn(Project project){
+		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(project.getSpawnLocation().getWorld().getName())){
+			Actions.message(null, player, "&cプロジェクトがクリエイティブモード設定なので、このワールドでスポーン地点設定できません！");
 			return true;
 		}
 
-		project.setWarpLocation(player.getLocation());
+		project.setSpawnLocation(player.getLocation());
 
-		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'のワープ地点を設定しました！");
+		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'のスポーン地点を設定しました！");
 		return true;
 	}
 
@@ -136,7 +136,7 @@ public class SetCommand extends BaseCommand{
 		String value = args.get(1).trim();
 
 		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes")){
-			if (project.getWarpLocation() != null && !plugin.getConfigs().creativeWorlds.contains(project.getWarpLocation().getWorld().getName())){
+			if (project.getSpawnLocation() != null && !plugin.getConfigs().creativeWorlds.contains(project.getSpawnLocation().getWorld().getName())){
 				Actions.message(null, player, "&cプロジェクトの拠点がクリエイティブモードになれるワールドではありません！");
 				project.setCreative(false);
 				return true;

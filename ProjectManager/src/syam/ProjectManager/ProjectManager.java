@@ -23,7 +23,7 @@ import syam.ProjectManager.Command.MemberCommand;
 import syam.ProjectManager.Command.ReloadCommand;
 import syam.ProjectManager.Command.SelectCommand;
 import syam.ProjectManager.Command.SetCommand;
-import syam.ProjectManager.Command.TpCommand;
+import syam.ProjectManager.Command.SpawnCommand;
 import syam.ProjectManager.Listener.PMListener;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Project.ProjectConfigManager;
@@ -129,7 +129,7 @@ public class ProjectManager extends JavaPlugin{
 		commands.add(new MemberCommand());
 		commands.add(new SetCommand());
 		commands.add(new ListCommand());
-		commands.add(new TpCommand());
+		commands.add(new SpawnCommand());
 		commands.add(new GmCommand());
 
 		// Admin Commands

@@ -32,8 +32,8 @@ public class Project{
 
 	// 参加プレイヤー
 	private Map<String, MemberType> playersMap = new ConcurrentHashMap<String, MemberType>();
-	// ワープ地点
-	private Location warpLoc = null;
+	// スポーン地点
+	private Location spawnLoc = null;
 	// エリア
 	private Cuboid area = null;
 
@@ -158,12 +158,12 @@ public class Project{
 		}
 	}
 
-	/* ワープ地点 */
-	public void setWarpLocation(Location loc){
-		this.warpLoc = loc;
+	/* スポーン地点 */
+	public void setSpawnLocation(Location loc){
+		this.spawnLoc = loc;
 	}
-	public Location getWarpLocation(){
-		return this.warpLoc;
+	public Location getSpawnLocation(){
+		return this.spawnLoc;
 	}
 
 	/* 作業エリア */

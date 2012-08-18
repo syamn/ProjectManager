@@ -11,12 +11,12 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import syam.ProjectManager.Project.Project;
 import syam.ProjectManager.Util.Actions;
 
-public class TpCommand extends BaseCommand{
-	public TpCommand(){
+public class SpawnCommand extends BaseCommand{
+	public SpawnCommand(){
 		bePlayer = true;
-		name = "tp";
+		name = "spawn";
 		argLength = 0;
-		usage = "[project] <- tp to specific project";
+		usage = "[project] <- tp to specific project spawn";
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class TpCommand extends BaseCommand{
 			List<Project> joined = plugin.getJoinedProject(player.getName());
 			if (joined.size() == 1){
 				project = joined.get(0); // Set project
-				Actions.message(null, player, "&a参加中のプロジェクト'"+project.getID()+"'にテレポートします！");
+				Actions.message(null, player, "&a参加中のプロジェクトID'"+project.getID()+"'にテレポートします！");
 			}
 			else if(joined.size() == 0){
 				Actions.message(null, player, "&c参加中のプロジェクトがありません！ /project tp <プロジェクトID>");
@@ -49,9 +49,9 @@ public class TpCommand extends BaseCommand{
 		if (project == null)
 			return true;
 
-		Location loc = project.getWarpLocation();
+		Location loc = project.getSpawnLocation();
 		if (loc == null){
-			Actions.message(null, player, "&cこのプロジェクトはワープ地点が未設定です！");
+			Actions.message(null, player, "&cこのプロジェクトはスポーン地点が未設定です！");
 			return true;
 		}
 
@@ -64,7 +64,7 @@ public class TpCommand extends BaseCommand{
 			Actions.message(null, player, "&aこのプロジェクトはクリエイティブモードが有効になっています！");
 		}else{
 			player.setGameMode(GameMode.SURVIVAL);
-			Actions.message(null, player, "&aプロジェクトの拠点にテレポートしました！");
+			Actions.message(null, player, "&aプロジェクトのスポーン地点にテレポートしました！");
 		}
 
 		return true;
@@ -72,6 +72,6 @@ public class TpCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("pm.user.tp");
+		return sender.hasPermission("pm.user.spawn");
 	}
 }

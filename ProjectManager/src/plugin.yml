@@ -47,3 +47,6 @@ permissions:
     pm.user.gm:
         default: op
         description: Allow use gm command
+    pm.user.spawn:
+        default: op
+        description: Allow use spawn command
