@@ -120,6 +120,7 @@ public class SetCommand extends BaseCommand{
 		project.setArea(block1.getLocation(), block2.getLocation());
 		Actions.message(null, player, "&aプロジェクトID'&6"+project.getID()+"&a'の領域を設定しました！");
 
+		// update dynmap
 		plugin.getDynmap().updateRegions();
 
 		return true;
@@ -154,6 +155,9 @@ public class SetCommand extends BaseCommand{
 
 		project.setCreative(creative);
 		Actions.message(sender, null, "&aプロジェクトID'&6"+project.getID()+"&a'のクリエイティブモードは"+result+"&aに設定されました！");
+
+		// update dynmap
+		plugin.getDynmap().updateRegions();
 
 		return true;
 	}
