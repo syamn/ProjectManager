@@ -109,6 +109,9 @@ public class ProjectManager extends JavaPlugin{
 			pfm.saveProjects();
 		}
 
+		// dynmapフック解除
+		getDynmap().disableDynmap();
+
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is disabled!");

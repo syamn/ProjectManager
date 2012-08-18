@@ -149,6 +149,9 @@ public class MemberCommand extends BaseCommand{
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'にプレイヤー &6"+p.getName()+"&a が追加されました！");
 
+		// Update dynmap
+		plugin.getDynmap().updateRegions();
+
 		return true;
 	}
 
@@ -187,6 +190,9 @@ public class MemberCommand extends BaseCommand{
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'からメンバー &6"+name+"&a が除名されました！");
 
+		// Update dynmap
+		plugin.getDynmap().updateRegions();
+
 		return true;
 	}
 
@@ -222,6 +228,9 @@ public class MemberCommand extends BaseCommand{
 		if (p != null) Actions.message(null, p, "&aあなたは&f "+sender.getName()+" &aによってプロジェクト'&6"+project.getTitle()+"&a'のマネージャになりました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'でメンバー &6"+name+"&a が新規マネージャになりました！");
+
+		// Update dynmap
+		plugin.getDynmap().updateRegions();
 
 		return true;
 	}
@@ -262,6 +271,9 @@ public class MemberCommand extends BaseCommand{
 		if (p != null) Actions.message(null, p, "&cあなたは &6"+sender.getName()+"&c によってプロジェクト'&6"+project.getTitle()+"&c'のマネージャ権限を剥奪されました！");
 
 		project.message(msgPrefix+"&a参加プロジェクト'&6"+project.getTitle()+"&a'で &6"+name+"&a がマネージャ権を剥奪されました！");
+
+		// Update dynmap
+		plugin.getDynmap().updateRegions();
 
 		return true;
 	}

@@ -19,6 +19,7 @@ import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerSet;
 
 import syam.ProjectManager.ProjectManager;
+import syam.ProjectManager.Enum.MemberType;
 import syam.ProjectManager.Project.Project;
 
 public class DynmapHandler{
@@ -39,6 +40,17 @@ public class DynmapHandler{
 	// Markers
 	private MarkerSet set;
 	private Map<String, AreaMarker> resareas = new HashMap<String, AreaMarker>();
+	private String infowindow;
+
+	// final
+	private final static String defaultInfowindow =
+			"<div class=\"infowindow\">" +
+			"[ProjectManager] プロジェクト情報:<br />" +
+			"<span style=\"font-size:120%;\">%projecttitle% [ID: %projectid%]</span><br />" +
+			"マネージャー <span style=\"font-weight:bold;\">%managers%</span><br />" +
+			"メンバー <span style=\"font-weight:bold;\">%members%</span><br />" +
+			"ゲームモード <span style=\"font-weight:bold;\">%gamemode%</span><br />" +
+			"</div>";
 
 	public DynmapHandler(final ProjectManager plugin){
 		this.plugin = plugin;
@@ -83,12 +95,16 @@ public class DynmapHandler{
 			return;
 		}
 
+		// TODO: Load config.yml
+		infowindow = defaultInfowindow;
+
 		// Set markers
 		set = markerapi.getMarkerSet("projectmanager.markerset");
-		if (set == null)
+		if (set == null){
 			set = markerapi.createMarkerSet("projectmanager.markerset", "プロジェクト", null, false);
-		else
+		}else{
 			set.setMarkerSetLabel("プロジェクト");
+		}
 
 		if (set == null){
 			log.severe(logPrefix+ "Cannot creating dynmap marker set!");
@@ -96,7 +112,7 @@ public class DynmapHandler{
 		}
 		// set.setMinZoom(0);
 		set.setLayerPriority(10);
-		set.setHideByDefault(true);
+		set.setHideByDefault(false);
 
 		log.info(logPrefix+ "Hooked to dynmap!");
 		activated = true;
@@ -112,7 +128,7 @@ public class DynmapHandler{
 		Map<String, AreaMarker> newmap = new HashMap<String, AreaMarker>();
 
 		for (Project project : plugin.projects.values()){
-			handleRegion(project, newmap);
+			handleProject(project, newmap);
 		}
 
 		// 古いマーカーを削除
@@ -125,7 +141,7 @@ public class DynmapHandler{
 		resareas = newmap;
 	}
 
-	private void handleRegion(Project project, Map<String, AreaMarker> newmap){
+	private void handleProject(Project project, Map<String, AreaMarker> newmap){
 		String title = project.getTitle();
 		String id = project.getID();
 		double[] x = null;
@@ -166,13 +182,63 @@ public class DynmapHandler{
 		else{
 			m.setCornerLocations(x, z);
 			m.setLabel(title);
+
 		}
 
 		// Set/Add styles here..
 
+		// ポップアップするバルーンに詳細情報を設定する
+		m.setDescription(formatInfoWindow(project, m));
+
 
 		// 新マーカーマップに追加
 		newmap.put(markerid, m);
+	}
+
+	/**
+	 * dynmapのエリアマーカー用の表示内容フォーマッティングする
+	 * @param project
+	 * @param m
+	 * @return
+	 */
+	private String formatInfoWindow(Project project, AreaMarker m){
+		String s = "<div class=\"regioninfo\">"+infowindow+"</div>";
+		// Build project title/ID
+		s = s.replaceAll("%projecttitle%", project.getTitle());
+		s = s.replaceAll("%projectid%", project.getID());
+
+		// Build project members/managers
+		String managers = "(none)";
+		String members = "(none)";
+		if (project.getPlayersByType(MemberType.MANAGER).size() >= 1){
+			managers = Util.join(project.getPlayersByType(MemberType.MANAGER), ", ");
+		}
+		if (project.getPlayersByType(MemberType.MEMBER).size() >= 1){
+			members = Util.join(project.getPlayersByType(MemberType.MEMBER), ", ");
+		}
+		s = s.replaceAll("%managers%", managers);
+		s = s.replaceAll("%members%", members);
+
+		// Build project default gamemode
+		if (project.getCreative()){
+			s = s.replaceAll("%gamemode%", "クリエイティブ");
+		}else{
+			s = s.replaceAll("%gamemode%", "サバイバル");
+		}
+
+		return s;
+	}
+
+	/**
+	 * dynmap連携を無効にする
+	 */
+	public void disableDynmap(){
+		if (set != null){
+			set.deleteMarkerSet();
+			set = null;
+		}
+		resareas.clear();
+		activated = false;
 	}
 
 	/**
