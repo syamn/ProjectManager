@@ -50,3 +50,6 @@ permissions:
     pm.user.spawn:
         default: op
         description: Allow use spawn command
+    pm.user.tp:
+        default: op
+        description: Allow use tp command
