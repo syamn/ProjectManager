@@ -90,7 +90,7 @@ public class SetCommand extends BaseCommand{
 	/* ***** ここから各設定関数 ****************************** */
 
 	private boolean setSpawn(Project project){
-		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(project.getSpawnLocation().getWorld().getName())){
+		if (project.getCreative() && !plugin.getConfigs().creativeWorlds.contains(player.getWorld().getName())){
 			Actions.message(null, player, "&cプロジェクトがクリエイティブモード設定なので、このワールドでスポーン地点設定できません！");
 			return true;
 		}
