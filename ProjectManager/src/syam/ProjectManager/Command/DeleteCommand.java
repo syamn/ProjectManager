@@ -37,11 +37,16 @@ public class DeleteCommand extends BaseCommand{
 			ex.printStackTrace();
 		}
 
-		if (!deleted)
+		if (!deleted){
 			Actions.message(sender, null, "&cプロジェクト'"+args.get(0)+"'のプロジェクトデータファイル削除中にエラーが発生しました！");
-		else
+		}else{
 			project.message(msgPrefix+"&c参加中のプロジェクト'&6"+project.getTitle()+"&c'は削除されました！");
 			Actions.message(sender, null, "&aプロジェクト'"+args.get(0)+"'を削除しました！");
+		}
+
+		// update dynmap
+		plugin.getDynmap().updateRegions();
+
 		return true;
 	}
 
