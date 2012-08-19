@@ -59,7 +59,8 @@ public class SpawnCommand extends BaseCommand{
 		player.teleport(loc, TeleportCause.PLUGIN);
 
 		// Check project gamemode
-		if (project.getCreative() && plugin.getConfigs().creativeWorlds.contains(player.getWorld().getName())){
+		if (project.isJoined(player.getName()) && project.getCreative() && plugin.getConfigs().creativeWorlds.contains(player.getWorld().getName())){
+
 			player.setGameMode(GameMode.CREATIVE);
 			Actions.message(null, player, "&aこのプロジェクトはクリエイティブモードが有効になっています！");
 		}else{
