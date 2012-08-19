@@ -36,6 +36,6 @@ public class SelectCommand extends BaseCommand{
 
 	@Override
 	public boolean permission() {
-		return sender.hasPermission("pm.admin.select");
+		return sender.hasPermission("pm.user.select");
 	}
 }
